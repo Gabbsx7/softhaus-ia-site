@@ -1,8 +1,3 @@
 {
-  "build": {
-    "builder": "static",
-    "static": {
-      "serveDirectory": "."
-    }
-  }
+  "start": "npx serve -s . -l $PORT"
 }
