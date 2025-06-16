@@ -1,51 +1,73 @@
 <!DOCTYPE html>
-<html lang="pt-BR" x-data="site()" @keydown.window.escape="closeAll()">
+<html x-data="site()" @keydown.window.escape="closeAll()" :lang="lang">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Softhaus IA – Automação Inteligente</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-  <!-- ▸ favicon -->
+  <!-- =============== SEO DINÂMICO =============== -->
+  <title x-text="content[lang].seo.title">Softhaus IA – Automação Inteligente</title>
+  <meta name="description"  x-bind:content="content[lang].seo.description" />
+  <meta name="keywords"     x-bind:content="content[lang].seo.keywords" />
+  <meta name="author"  content="Softhaus" />
+  <meta name="robots"  content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       x-bind:content="content[lang].seo.title" />
+  <meta property="og:description" x-bind:content="content[lang].seo.description" />
+  <meta property="og:image"       content="../assets/img/og-image.jpg" />
+  <meta property="og:url"         content="https://ia.softhaus.dev" />
+
+  <!-- Twitter Card -->
+  <meta property="twitter:card"        content="summary_large_image" />
+  <meta property="twitter:title"       x-bind:content="content[lang].seo.title" />
+  <meta property="twitter:description" x-bind:content="content[lang].seo.description" />
+  <meta property="twitter:image"       content="../assets/img/og-image.jpg" />
+
+  <!-- Canonical & Alternate -->
+  <link rel="canonical"               href="https://ia.softhaus.dev" />
+  <link rel="alternate" hreflang="pt-BR" href="https://ia.softhaus.dev" />
+  <link rel="alternate" hreflang="en"    href="https://ia.softhaus.dev/en" />
+  <link rel="alternate" hreflang="x-default" href="https://ia.softhaus.dev" />
+
+  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg"/>
 
-  <!-- ▸ Tailwind -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
   <script>
     tailwind.config = {
       theme:{
         extend:{
-          colors:{
-            primary:'#C92C7D',
-            accent :'#7E33FF',
-            cta    :'#00C8FF',
-            dark   :'#070814',
-            surface:'#1A1A2E'
-          },
+          colors:{primary:'#C92C7D',accent:'#7E33FF',cta:'#00C8FF',dark:'#070814',surface:'#1A1A2E'},
           fontFamily:{sans:['Inter','sans-serif'],heading:['Poppins','sans-serif']}
         }
       }
     }
   </script>
 
-  <!-- ▸ libs -->
+  <!-- Libs -->
   <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
   <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+
+  <!-- Credenciais Supabase -->
   <script>
-    /* ▸ credenciais Supabase */
-    const SUPABASE_URL='https://vfolhmfhdsinqqgdssve.supabase.co';
-    const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmb2xobWZoZHNpbnFxZ2Rzc3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4OTMzOTMsImV4cCI6MjA2MjQ2OTM5M30.LXOTfL9SmnQR7N9Dl3BfI4L5Z3OhoQckvuraD2CdXgg';
-    window.$supabase=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+    const SUPABASE_URL = 'https://vfolhmfhdsinqqgdssve.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmb2xobWZoZHNpbnFxZ2Rzc3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4OTMzOTMsImV4cCI6MjA2MjQ2OTM5M30.LXOTfL9SmnQR7N9Dl3BfI4L5Z3OhoQckvuraD2CdXgg';
+    window.$supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   </script>
 
-  <!-- ▸ estilos extras -->
+  <!-- Estilos extras -->
   <style>
     body{background:#070814;color:#F3F4F6;font-family:Inter,sans-serif}
     h1,h2,h3,h4{font-family:Poppins,sans-serif}
     section[id]{scroll-margin-top:96px}
-    .text-grad{background:linear-gradient(135deg,#7E33FF 0%,#C92C7D 50%,#00C8FF 100%);
-               -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .text-grad{
+      background:linear-gradient(135deg,#7E33FF 0%,#C92C7D 50%,#00C8FF 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent
+    }
     .btn{border-radius:9999px;font-weight:600;transition:.25s}
     .btn-primary{background:linear-gradient(135deg,#7E33FF 0%,#C92C7D 100%);
                  box-shadow:0 6px 28px rgba(126,51,255,.35)}
@@ -57,41 +79,131 @@
     .glass:hover{transform:translateY(-6px);border-color:#7E33FF66}
     .step{width:4rem;height:4rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;
           background:linear-gradient(135deg,rgba(126,51,255,.25)0%,rgba(201,44,125,.25)100%);font-weight:700;font-size:1.25rem}
+
+    /* idioma toggle */
+    .lang-toggle{position:relative;width:60px;height:30px;background:rgba(255,255,255,.1);
+                 border-radius:15px;cursor:pointer;transition:.3s}
+    .lang-toggle::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;
+                        background:#fff;border-radius:50%;transition:.3s}
+    .lang-toggle.active::after{transform:translateX(30px)}
   </style>
 
-  <!-- ▸ Alpine data -->
+  <!-- Alpine component -->
   <script>
     document.addEventListener('DOMContentLoaded',()=>AOS.init({duration:800,once:true}));
+
     function site(){return{
-      nav:false,modal:false,modalCard:null,
+      /* ---------- estado ---------- */
+      lang:'pt-BR', nav:false, modal:false, modalCard:null,
       form:{nome:'',email:'',empresa:'',telefone:'',descricao:'',orcamento:'',prazo:''},
+
+      /* ---------- conteúdo ---------- */
+      content:{
+        'pt-BR':{
+          seo:{
+            title:'Softhaus IA – Automação Inteligente',
+            description:'Assistentes, previsões e visão computacional entregues em semanas. IA low-code para escalar negócios.',
+            keywords:'inteligência artificial, automação, chatbot, visão computacional, softhaus IA'
+          },
+          nav:{benefits:'Benefícios',process:'Processo',cases:'Cases',quote:'Falar com expert'},
+          hero:{title:'IA que <span class="text-grad">automatiza</span> e <span class="text-grad">escala</span> negócios',
+                subtitle:'Assistentes, previsões e visão computacional entregues em semanas.',
+                cta:'Começar projeto IA',secondary:'Explorar benefícios'},
+          benefits:[
+            {icon:'🤖',title:'Bots 24/7',desc:'Atendimento instantâneo com LLM de ponta.'},
+            {icon:'📊',title:'Insights Preditivos',desc:'Modelos que antecipam churn e vendas com >92 % de acurácia.'},
+            {icon:'⚡',title:'Integração Expressa',desc:'SDK low-code, webhook e REST para plugar em minutos.'}
+          ],
+          process:{title:'Processo <span class="text-grad">turbo</span> de entrega',
+                   steps:['Discovery IA','Data Prep','Training','Deploy & Escala'],
+                   desc:[
+                    'Imersão de 5 dias: alinhamos objetivos, definimos métricas de sucesso e entregamos um protótipo funcional que comprova ROI.',
+                    'Conectamos todas as suas fontes, saneamos e anonimamos os dados, aplicamos feature engineering e garantimos compliance LGPD.',
+                    'Selecionamos o modelo SOTA ideal, realizamos fine-tuning com seus dados e atingimos 92–99 % de acurácia validada.',
+                    'Publicamos serverless com CI/CD, monitor de drift e retraining automático. Dashboards mostram ganhos em tempo real.'
+                   ]},
+          casesTitle:'Nossos <span class="text-grad">cases</span> de IA',
+          cases:[
+            {name:"Ant'z",title:"Ant'z White-label",desc:'Agente conversacional que reduziu 75 % do tempo médio de atendimento.',metric:'-75 % TMA',color:'primary'},
+            {name:'ChatCopilot',title:'ChatCopilot',desc:'Copiloto de vendas que elevou 32 % a taxa de conversão.',metric:'+32 % CVR',color:'accent'},
+            {name:'VisionQuality',title:'VisionQuality',desc:'Visão computacional com 99 % de precisão em inspeção.',metric:'99 % accuracy',color:'cta'}
+          ],
+          final:{title:'Pronto para escalar com IA?',
+                 subtitle:'Receba um diagnóstico gratuito em 48 h.',
+                 cta:'Agendar diagnóstico'},
+          footer:{rights:'© 2025 Softhaus. Todos os direitos reservados.'},
+          form:{title:'Solicitar Orçamento',send:'Enviar',
+                budget:['Até R$ 50 k','R$ 50 k – 100 k','+ de R$ 100 k'],
+                timeline:['1-2 meses','3-4 meses','+ de 4 meses'],
+                alerts:{ok:'Recebido! ✅',fail:'Algo deu errado 😕\n'}}
+        },
+
+        'en':{
+          seo:{
+            title:'Softhaus IA – Intelligent Automation',
+            description:'Assistants, forecasts and computer vision delivered in weeks. Low-code AI to scale your business.',
+            keywords:'artificial intelligence, automation, chatbot, computer vision, softhaus IA'
+          },
+          nav:{benefits:'Benefits',process:'Process',cases:'Cases',quote:'Talk to expert'},
+          hero:{title:'AI that <span class="text-grad">automates</span> and <span class="text-grad">scales</span> businesses',
+                subtitle:'Assistants, forecasts and computer vision delivered in weeks.',
+                cta:'Start AI project',secondary:'Explore benefits'},
+          benefits:[
+            {icon:'🤖',title:'Bots 24/7',desc:'Instant support powered by cutting-edge LLM.'},
+            {icon:'📊',title:'Predictive Insights',desc:'Models anticipating churn and sales with >92 % accuracy.'},
+            {icon:'⚡',title:'Express Integration',desc:'Low-code SDK, webhooks & REST ready in minutes.'}
+          ],
+          process:{title:'Lightning-fast <span class="text-grad">delivery</span> process',
+                   steps:['Discovery AI','Data Prep','Training','Deploy & Scale'],
+                   desc:[
+                    '5-day immersion: align goals, define success metrics and ship a functional prototype that proves ROI.',
+                    'Connect sources, clean & anonymize data, feature engineering and LGPD/GDPR compliance.',
+                    'Pick the best SOTA model, fine-tune with your data and reach 92–99 % validated accuracy.',
+                    'Serverless release with CI/CD, drift monitor and auto-retraining. Dashboards show gains in real-time.'
+                   ]},
+          casesTitle:'Our <span class="text-grad">AI success</span> stories',
+          cases:[
+            {name:"Ant'z",title:"Ant'z White-label",desc:'Conversational agent that cut average handling time by 75 %.',metric:'-75 % AHT',color:'primary'},
+            {name:'ChatCopilot',title:'ChatCopilot',desc:'Sales copilot that boosted conversion rate by 32 %.',metric:'+32 % CVR',color:'accent'},
+            {name:'VisionQuality',title:'VisionQuality',desc:'Computer-vision QC hitting 99 % inspection accuracy.',metric:'99 % accuracy',color:'cta'}
+          ],
+          final:{title:'Ready to scale with AI?',
+                 subtitle:'Get a free assessment in 48 h.',
+                 cta:'Book assessment'},
+          footer:{rights:'© 2025 Softhaus. All rights reserved.'},
+          form:{title:'Request Quote',send:'Send',
+                budget:['Up to $12k','$12k – $25k','+ $25k'],
+                timeline:['1-2 months','3-4 months','+ 4 months'],
+                alerts:{ok:'Got it! ✅',fail:'Something went wrong 😕\n'}}
+        }
+      },
+
+      /* ---------- métodos ---------- */
+      toggleLang(){
+        this.lang = this.lang==='pt-BR' ? 'en' : 'pt-BR';
+        document.documentElement.lang = this.lang;
+        localStorage.setItem('preferred-lang',this.lang);
+      },
+
+      init(){
+        const saved = localStorage.getItem('preferred-lang');
+        if(saved){this.lang = saved; document.documentElement.lang = this.lang;}
+      },
 
       openForm(){this.modal=true;this.modalCard=null},
       openCard(i){this.modal=true;this.modalCard=i},
       closeAll(){this.modal=false;this.modalCard=null},
 
-      async submit () {
-  const { data, error } = await $supabase
-    .from('leads_ia')        //  ← use o nome real da tabela
-    .insert([{
-      nome:      this.form.nome,
-      email:     this.form.email,
-      telefone:  this.form.telefone,
-      empresa:   this.form.empresa,
-      descricao: this.form.descricao,
-      orcamento: this.form.orcamento,
-      prazo:     this.form.prazo
-    }]);
-
-  if (error) {
-    console.error(error);        // veja a msg completa no console
-    alert('Algo deu errado 😕\n' + error.message);
-  } else {
-    alert('Recebido! ✅');
-    this.closeAll();
-  }
-}
-
+      async submit(){
+        const payload = {
+          nome:this.form.nome,email:this.form.email,telefone:this.form.telefone,
+          empresa:this.form.empresa,descricao:this.form.descricao,
+          orcamento:this.form.orcamento,prazo:this.form.prazo,idioma:this.lang
+        };
+        const { error } = await $supabase.from('leads_ia').insert(payload);
+        if(error){alert(this.content[this.lang].form.alerts.fail+error.message);console.error(error);}
+        else{alert(this.content[this.lang].form.alerts.ok);this.closeAll();}
+      }
     }}
   </script>
 </head>
@@ -102,15 +214,31 @@
         :class="{'bg-[#070814]/90':nav||window.scrollY>50}">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="/" class="flex items-center space-x-2">
-      <img src="assets/img/logo-softhaus.svg" class="w-8" alt="Softhaus">
+      <img src="../assets/img/logo-softhaus.svg" class="w-8" alt="Softhaus">
       <span class="font-heading font-bold">Softhaus IA</span>
     </a>
+
+    <!-- desktop -->
     <nav class="hidden md:flex items-center space-x-8 text-sm">
-      <a href="#beneficios" class="hover:text-primary">Benefícios</a>
-      <a href="#como"       class="hover:text-primary">Processo</a>
-      <a href="#cases"      class="hover:text-primary">Cases</a>
-      <button class="btn btn-primary py-2 px-6" @click="openForm()">Falar com expert</button>
+      <a href="#beneficios" class="hover:text-primary" x-text="content[lang].nav.benefits"></a>
+      <a href="#como"       class="hover:text-primary" x-text="content[lang].nav.process"></a>
+      <a href="#cases"      class="hover:text-primary" x-text="content[lang].nav.cases"></a>
+
+      <!-- idioma -->
+      <div class="flex items-center space-x-3">
+        <span class="text-xs" :class="lang==='pt-BR'?'text-primary':'text-gray-400'">PT</span>
+        <div class="lang-toggle" :class="lang==='en'?'active':''" @click="toggleLang()">
+          <div class="absolute inset-0 flex items-center justify-between px-2 text-[10px] font-bold text-gray-600">
+            <span>PT</span><span>EN</span>
+          </div>
+        </div>
+        <span class="text-xs" :class="lang==='en'?'text-primary':'text-gray-400'">EN</span>
+      </div>
+
+      <button class="btn btn-primary py-2 px-6" @click="openForm()" x-text="content[lang].nav.quote"></button>
     </nav>
+
+    <!-- mobile toggle -->
     <button class="md:hidden text-primary" @click="nav=!nav">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -118,12 +246,26 @@
       </svg>
     </button>
   </div>
+
+  <!-- mobile menu -->
   <div x-show="nav" x-transition class="md:hidden border-t border-white/10 bg-[#070814]/90 backdrop-blur-sm">
     <div class="px-6 py-4 space-y-3">
-      <a href="#beneficios" @click="nav=false" class="block">Benefícios</a>
-      <a href="#como"       @click="nav=false" class="block">Processo</a>
-      <a href="#cases"      @click="nav=false" class="block">Cases</a>
-      <button class="btn btn-primary w-full py-3" @click="openForm()">Solicitar orçamento</button>
+      <a href="#beneficios" @click="nav=false" class="block" x-text="content[lang].nav.benefits"></a>
+      <a href="#como"       @click="nav=false" class="block" x-text="content[lang].nav.process"></a>
+      <a href="#cases"      @click="nav=false" class="block" x-text="content[lang].nav.cases"></a>
+
+      <!-- idioma mobile -->
+      <div class="flex items-center justify-center space-x-3 py-2">
+        <span class="text-xs" :class="lang==='pt-BR'?'text-primary':'text-gray-400'">PT</span>
+        <div class="lang-toggle" :class="lang==='en'?'active':''" @click="toggleLang()">
+          <div class="absolute inset-0 flex items-center justify-between px-2 text-[10px] font-bold text-gray-600">
+            <span>PT</span><span>EN</span>
+          </div>
+        </div>
+        <span class="text-xs" :class="lang==='en'?'text-primary':'text-gray-400'">EN</span>
+      </div>
+
+      <button class="btn btn-primary w-full py-3" @click="openForm()" x-text="content[lang].nav.quote"></button>
     </div>
   </div>
 </header>
@@ -136,13 +278,11 @@
   <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/90"></div>
 
   <div class="relative z-10 text-center px-6 max-w-3xl" data-aos="fade-up">
-    <h1 class="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight">
-      IA que <span class="text-grad">automatiza</span> e <span class="text-grad">escala</span> negócios
-    </h1>
-    <p class="text-lg md:text-2xl text-gray-300 mb-10">Assistentes, previsões e visão computacional entregues em semanas.</p>
+    <h1 class="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight" x-html="content[lang].hero.title"></h1>
+    <p class="text-lg md:text-2xl text-gray-300 mb-10" x-text="content[lang].hero.subtitle"></p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <button class="btn btn-primary py-4 px-8" @click="openForm()">Começar projeto IA</button>
-      <a href="#beneficios" class="btn btn-sec py-4 px-8">Explorar benefícios</a>
+      <button class="btn btn-primary py-4 px-8" @click="openForm()" x-text="content[lang].hero.cta"></button>
+      <a href="#beneficios" class="btn btn-sec py-4 px-8" x-text="content[lang].hero.secondary"></a>
     </div>
   </div>
 </section>
@@ -150,41 +290,33 @@
 <!-- ░░░ BENEFÍCIOS -->
 <section id="beneficios" class="py-24">
   <div class="text-center mb-16" data-aos="fade-up">
-    <h2 class="text-4xl md:text-5xl font-heading font-bold">Por que escolher <span class="text-grad">Softhaus IA</span>?</h2>
+    <h2 class="text-4xl md:text-5xl font-heading font-bold">
+      <span x-html="content[lang].nav.benefits"></span> <span class="text-grad">Softhaus IA</span>
+    </h2>
   </div>
   <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6">
-    <div class="glass p-8 rounded-2xl text-center" data-aos="fade-up" data-aos-delay="50">
-      <div class="step mb-5">🤖</div><h3 class="font-heading text-lg mb-3">Bots 24/7</h3>
-      <p class="text-sm text-gray-400">Atendimento instantâneo com LLM de ponta.</p>
-    </div>
-    <div class="glass p-8 rounded-2xl text-center" data-aos="fade-up" data-aos-delay="100">
-      <div class="step mb-5">📊</div><h3 class="font-heading text-lg mb-3">Insights Preditivos</h3>
-      <p class="text-sm text-gray-400">Modelos que antecipam churn e vendas com &gt;92 % de acurácia.</p>
-    </div>
-    <div class="glass p-8 rounded-2xl text-center" data-aos="fade-up" data-aos-delay="150">
-      <div class="step mb-5">⚡</div><h3 class="font-heading text-lg mb-3">Integração Expressa</h3>
-      <p class="text-sm text-gray-400">SDK low-code, webhook e REST para plugar em minutos.</p>
-    </div>
+    <template x-for="(b,i) in content[lang].benefits" :key="i">
+      <div class="glass p-8 rounded-2xl text-center" data-aos="fade-up" :data-aos-delay="50+50*i">
+        <div class="step mb-5" x-text="b.icon"></div>
+        <h3 class="font-heading text-lg mb-3" x-text="b.title"></h3>
+        <p class="text-sm text-gray-400" x-text="b.desc"></p>
+      </div>
+    </template>
   </div>
 </section>
 
 <!-- ░░░ PROCESSO -->
 <section id="como" class="py-24 bg-gradient-to-b from-white/5 via-transparent to-white/5">
   <div class="text-center mb-16" data-aos="fade-up">
-    <h2 class="text-4xl md:text-5xl font-heading font-bold">Processo <span class="text-grad">turbo</span> de entrega</h2>
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-html="content[lang].process.title"></h2>
   </div>
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
-    <template x-for="(step,i) in ['Discovery AI','Data Prep','Training','Deploy & Escala']" :key="i">
+    <template x-for="(step,i) in content[lang].process.steps" :key="i">
       <div class="glass p-8 rounded-2xl text-center cursor-pointer" @click="openCard(i)"
            data-aos="fade-up" :data-aos-delay="80+60*i">
         <div class="step mb-6" x-text="i+1"></div>
         <h3 class="text-lg font-heading font-semibold mb-2" x-text="step"></h3>
-        <p class="text-gray-400 text-xs leading-relaxed" x-text="[
-          'Imersão e protótipo em 5 dias.',
-          'Limpeza + feature engineering.',
-          'Fine-tuning ou modelagem de ponta.',
-          'CI/CD, drift monitor e retrain contínuo.'
-        ][i]"></p>
+        <p class="text-gray-400 text-xs leading-relaxed" x-text="content[lang].process.desc[i]"></p>
       </div>
     </template>
   </div>
@@ -193,51 +325,24 @@
 <!-- ░░░ CASES -->
 <section id="cases" class="py-24">
   <div class="text-center mb-16" data-aos="fade-up">
-    <h2 class="text-4xl md:text-5xl font-heading font-bold">Nossos <span class="text-grad">cases</span> de IA</h2>
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-html="content[lang].casesTitle"></h2>
   </div>
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
-    <!-- Ant'z -->
-    <div class="glass rounded-2xl overflow-hidden group" data-aos="fade-up" data-aos-delay="40">
-      <div class="h-48 flex items-center justify-center bg-white/5">
-        <span class="text-3xl font-heading text-white/10 group-hover:text-white/20 transition">Ant'z</span>
-      </div>
-      <div class="p-6">
-        <h3 class="font-heading font-bold mb-2">Ant'z White-label</h3>
-        <p class="text-gray-400 text-sm mb-4">Agente conversacional que reduziu 75 % do tempo médio de atendimento.</p>
-        <div class="flex justify-between items-center">
-          <span class="text-primary text-sm font-semibold">-75 % TMA</span>
-          <button class="btn-sec px-4 py-2 text-xs" @click="openForm()">Quero igual</button>
+    <template x-for="(c,i) in content[lang].cases" :key="i">
+      <div class="glass rounded-2xl overflow-hidden group" data-aos="fade-up" :data-aos-delay="40+40*i">
+        <div class="h-48 flex items-center justify-center bg-white/5">
+          <span class="text-3xl font-heading text-white/10 group-hover:text-white/20 transition" x-text="c.name"></span>
+        </div>
+        <div class="p-6">
+          <h3 class="font-heading font-bold mb-2" x-text="c.title"></h3>
+          <p class="text-gray-400 text-sm mb-4" x-text="c.desc"></p>
+          <div class="flex justify-between items-center">
+            <span class="text-sm font-semibold" :class="{'text-primary':c.color==='primary','text-accent':c.color==='accent','text-cta':c.color==='cta'}" x-text="c.metric"></span>
+            <button class="btn-sec px-4 py-2 text-xs" @click="openForm()" x-text="lang==='pt-BR'?'Quero igual':'Want similar'"></button>
+          </div>
         </div>
       </div>
-    </div>
-    <!-- ChatCopilot -->
-    <div class="glass rounded-2xl overflow-hidden group" data-aos="fade-up" data-aos-delay="80">
-      <div class="h-48 flex items-center justify-center bg-white/5">
-        <span class="text-3xl font-heading text-white/10 group-hover:text-white/20 transition">ChatCopilot</span>
-      </div>
-      <div class="p-6">
-        <h3 class="font-heading font-bold mb-2">ChatCopilot</h3>
-        <p class="text-gray-400 text-sm mb-4">Copiloto de vendas que elevou em 32 % a taxa de conversão.</p>
-        <div class="flex justify-between items-center">
-          <span class="text-accent text-sm font-semibold">+32 % CVR</span>
-          <button class="btn-sec px-4 py-2 text-xs" @click="openForm()">Quero igual</button>
-        </div>
-      </div>
-    </div>
-    <!-- VisionQuality -->
-    <div class="glass rounded-2xl overflow-hidden group" data-aos="fade-up" data-aos-delay="120">
-      <div class="h-48 flex items-center justify-center bg-white/5">
-        <span class="text-3xl font-heading text-white/10 group-hover:text-white/20 transition">VisionQuality</span>
-      </div>
-      <div class="p-6">
-        <h3 class="font-heading font-bold mb-2">VisionQuality</h3>
-        <p class="text-gray-400 text-sm mb-4">Visão computacional que atinge 99 % de precisão em inspeção.</p>
-        <div class="flex justify-between items-center">
-          <span class="text-cta text-sm font-semibold">99 % accuracy</span>
-          <button class="btn-sec px-4 py-2 text-xs" @click="openForm()">Quero igual</button>
-        </div>
-      </div>
-    </div>
+    </template>
   </div>
 </section>
 
@@ -245,9 +350,9 @@
 <section class="py-32 relative overflow-hidden" data-aos="zoom-in">
   <div class="absolute inset-0 bg-gradient-to-r from-accent via-primary to-cta opacity-90"></div>
   <div class="relative z-10 text-center max-w-xl mx-auto px-6">
-    <h2 class="text-4xl md:text-6xl font-heading font-bold mb-6">Pronto para escalar com IA?</h2>
-    <p class="text-lg md:text-2xl opacity-90 mb-12">Receba um diagnóstico gratuito em 48 h.</p>
-    <button class="btn btn-primary py-4 px-10" @click="openForm()">Agendar diagnóstico</button>
+    <h2 class="text-4xl md:text-6xl font-heading font-bold mb-6" x-text="content[lang].final.title"></h2>
+    <p class="text-lg md:text-2xl opacity-90 mb-12" x-text="content[lang].final.subtitle"></p>
+    <button class="btn btn-primary py-4 px-10" @click="openForm()" x-text="content[lang].final.cta"></button>
   </div>
 </section>
 
@@ -255,10 +360,29 @@
 <footer class="bg-[#0F111A] text-white py-10">
   <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between md:items-center gap-6">
     <div class="flex items-center space-x-3">
-      <img src="assets/img/logo-softhaus.svg" class="w-9" alt="Softhaus">
+      <img src="../assets/img/logo-softhaus.svg" class="w-9" alt="Softhaus">
       <span class="font-heading font-bold text-lg">Softhaus IA</span>
     </div>
-    <div class="text-sm text-gray-400">© 2025 Softhaus. Todos os direitos reservados.</div>
+
+    <!-- ícones sociais -->
+    <div class="flex space-x-4">
+      <!-- WhatsApp -->
+      <a href="https://wa.me/554799085741" target="_blank" rel="noopener"
+         class="text-gray-400 hover:text-primary transition-colors">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.101-.472-.149-.672.149-.198.297-.772.966-.946 1.164-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.447-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.522-.075-.149-.672-1.611-.919-2.218-.242-.579-.487-.5-.672-.51-.173-.007-.372-.009-.571-.009-.198 0-.52.074-.793.372-.273.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.073.149.198 2.095 3.2 5.072 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.005-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12 2.163c5.421 0 9.837 4.415 9.837 9.837 0 5.422-4.416 9.837-9.837 9.837-1.697 0-3.298-.444-4.693-1.212l-3.332.873.885-3.243c-.817-1.357-1.293-2.932-1.293-4.708 0-5.422 4.415-9.838 9.837-9.838zm0-2.163C5.373 0 0 5.373 0 12c0 2.115.553 4.096 1.523 5.822l-1.634 5.984 6.146-1.608c1.664.911 3.564 1.435 5.965 1.435 6.627 0 12-5.373 12-12S18.627 0 12 0z"/>
+        </svg>
+      </a>
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/company/softhaus-dev" target="_blank" rel="noopener"
+         class="text-gray-400 hover:text-primary transition-colors">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="text-sm text-gray-400" x-text="content[lang].footer.rights"></div>
   </div>
 </footer>
 
@@ -267,62 +391,52 @@
   <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
     <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="closeAll()"></div>
 
-    <!-- ▸ FORM --------------------------------------------------------------->
+    <!-- Form -->
     <template x-if="modalCard===null">
       <div class="glass max-w-xl w-full p-8 rounded-2xl relative" x-transition>
-        <button class="absolute топ-3 right-3 text-gray-400 hover:text-primary" @click="closeAll()">✕</button>
-        <h3 class="text-2xl font-heading font-bold mb-6">Solicitar Orçamento</h3>
+        <button class="absolute top-3 right-3 text-gray-400 hover:text-primary" @click="closeAll()">✕</button>
+        <h3 class="text-2xl font-heading font-bold mb-6" x-text="content[lang].form.title"></h3>
 
         <form class="space-y-4" @submit.prevent="submit()">
-          <!-- linha 1 -->
           <div class="grid md:grid-cols-2 gap-4">
-            <input x-model="form.nome"  placeholder="Nome"  class="w-full bg-surface/50 p-3 rounded-md" required>
+            <input x-model="form.nome"  placeholder="Nome / Name"  class="w-full bg-surface/50 p-3 rounded-md" required>
             <input x-model="form.email" placeholder="E-mail" class="w-full bg-surface/50 p-3 rounded-md" type="email" required>
           </div>
-          <!-- linha 2 -->
           <div class="grid md:grid-cols-2 gap-4">
-            <input x-model="form.telefone" placeholder="Telefone" class="w-full bg-surface/50 p-3 rounded-md" required>
-            <input x-model="form.empresa"  placeholder="Empresa"  class="w-full bg-surface/50 p-3 rounded-md">
+            <input x-model="form.telefone" placeholder="Telefone / Phone" class="w-full bg-surface/50 p-3 rounded-md" required>
+            <input x-model="form.empresa"  placeholder="Empresa / Company"  class="w-full bg-surface/50 p-3 rounded-md">
           </div>
-          <!-- orçamento / prazo -->
           <div class="grid md:grid-cols-2 gap-4">
             <select x-model="form.orcamento" class="w-full bg-surface/50 p-3 rounded-md" required>
-              <option value="" disabled selected>Orçamento estimado</option>
-              <option>Até R$ 50 k</option><option>R$ 50 k – 100 k</option><option>+ de R$ 100 k</option>
+              <option value="" disabled selected x-text="lang==='pt-BR'?'Orçamento estimado':'Estimated budget'"></option>
+              <template x-for="o in content[lang].form.budget"><option x-text="o"></option></template>
             </select>
             <select x-model="form.prazo" class="w-full bg-surface/50 p-3 rounded-md" required>
-              <option value="" disabled selected>Prazo desejado</option>
-              <option>1-2 meses</option><option>3-4 meses</option><option>+ de 4 meses</option>
+              <option value="" disabled selected x-text="lang==='pt-BR'?'Prazo desejado':'Desired timeline'"></option>
+              <template x-for="t in content[lang].form.timeline"><option x-text="t"></option></template>
             </select>
           </div>
-          <!-- descrição -->
-          <textarea x-model="form.descricao" rows="3" placeholder="Descreva seu projeto"
+          <textarea x-model="form.descricao" rows="3" placeholder="Projeto / Project"
                     class="w-full bg-surface/50 p-3 rounded-md"></textarea>
 
-          <button class="btn btn-primary w-full py-3">Enviar</button>
+          <button class="btn btn-primary w-full py-3" x-text="content[lang].form.send"></button>
         </form>
       </div>
     </template>
 
-    <!-- ▸ DETALHE ETAPA ------------------------------------------------------->
+    <!-- Detalhe etapa -->
     <template x-if="modalCard!==null">
       <div class="glass max-w-lg w-full p-8 rounded-2xl relative" x-transition>
         <button class="absolute top-3 right-3 text-gray-400 hover:text-primary" @click="closeAll()">✕</button>
-        <h3 class="text-2xl font-heading font-bold mb-4"
-            x-text="['Discovery AI','Data Prep','Training','Deploy & Escala'][modalCard]"></h3>
-        <p class="text-gray-300 leading-relaxed mb-6"
-           x-text="[
-             'Imersão de 5 dias: alinhamos objetivos, definimos métricas de sucesso e entregamos um protótipo funcional que já comprova ROI.',
-             'Conectamos todas as suas fontes, saneamos e anonimamos os dados, aplicamos feature engineering e garantimos compliance LGPD.',
-             'Selecionamos o modelo SOTA ideal, realizamos fine-tuning com seus dados e atingimos 92–99 % de acurácia validada.',
-             'Publicamos em ambiente serverless com CI/CD, monitor de drift e retraining automático. Dashboards mostram ganhos em tempo real.'
-           ][modalCard]"></p>
-        <button class="btn btn-primary w-full py-3" @click="openForm()">Solicitar proposta</button>
+        <h3 class="text-2xl font-heading font-bold mb-4" x-text="content[lang].process.steps[modalCard]"></h3>
+        <p class="text-gray-300 leading-relaxed mb-6" x-text="content[lang].process.desc[modalCard]"></p>
+        <button class="btn btn-primary w-full py-3" @click="openForm()" x-text="lang==='pt-BR'?'Solicitar proposta':'Request proposal'"></button>
       </div>
     </template>
   </div>
 </template>
 
+<!-- Alpine init -->
 <script>document.addEventListener('alpine:init',()=>Alpine.data('site',site));</script>
 </body>
 </html>
