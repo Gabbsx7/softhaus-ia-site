@@ -5,7 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <!-- =============== SEO DINÂMICO =============== -->
+<<<<<<< HEAD
   <title x-text="content[lang].seo.title">Softhaus IA – Automação Inteligente</title>
+=======
+  <title x-text="content[lang].seo.title">Softhaus AI – Automação Inteligente</title>
+>>>>>>> be93275 (new site)
   <meta name="description"  x-bind:content="content[lang].seo.description" />
   <meta name="keywords"     x-bind:content="content[lang].seo.keywords" />
   <meta name="author"  content="Softhaus" />
@@ -33,14 +37,33 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg"/>
 
+<<<<<<< HEAD
+=======
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+>>>>>>> be93275 (new site)
   <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
   <script>
     tailwind.config = {
       theme:{
         extend:{
+<<<<<<< HEAD
           colors:{primary:'#C92C7D',accent:'#7E33FF',cta:'#00C8FF',dark:'#070814',surface:'#1A1A2E'},
           fontFamily:{sans:['Inter','sans-serif'],heading:['Poppins','sans-serif']}
+=======
+          colors:{
+            primary:'#ec4899', // pink accent used in gradients/metrics
+            accent:'#646cff',  // blue accent
+            cta:'#06b6d4',     // cyan accent
+            dark:'#000000',
+            surface:'#0a0a0a'
+          },
+          fontFamily:{sans:['Inter','sans-serif'],heading:['Inter','sans-serif']}
+>>>>>>> be93275 (new site)
         }
       }
     }
@@ -61,14 +84,21 @@
 
   <!-- Estilos extras -->
   <style>
+<<<<<<< HEAD
     body{background:#070814;color:#F3F4F6;font-family:Inter,sans-serif}
     h1,h2,h3,h4{font-family:Poppins,sans-serif}
+=======
+    body{background:#000;color:#fff;font-family:Inter,sans-serif}
+    h1,h2,h3,h4{font-family:Inter,sans-serif}
+    h1{letter-spacing:-.02em}
+>>>>>>> be93275 (new site)
     section[id]{scroll-margin-top:96px}
     .text-grad{
-      background:linear-gradient(135deg,#7E33FF 0%,#C92C7D 50%,#00C8FF 100%);
-      -webkit-background-clip:text;-webkit-text-fill-color:transparent
+      background:linear-gradient(135deg,#646cff 0%,#ec4899 50%,#06b6d4 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text
     }
     .btn{border-radius:9999px;font-weight:600;transition:.25s}
+<<<<<<< HEAD
     .btn-primary{background:linear-gradient(135deg,#7E33FF 0%,#C92C7D 100%);
                  box-shadow:0 6px 28px rgba(126,51,255,.35)}
     .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 38px rgba(126,51,255,.45)}
@@ -79,6 +109,30 @@
     .glass:hover{transform:translateY(-6px);border-color:#7E33FF66}
     .step{width:4rem;height:4rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;
           background:linear-gradient(135deg,rgba(126,51,255,.25)0%,rgba(201,44,125,.25)100%);font-weight:700;font-size:1.25rem}
+=======
+    .btn-primary{position:relative;overflow:hidden;background:#fff;color:#000}
+    .btn-primary::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:#646cff;transform:translate(-50%,-50%);transition:width .6s ease,height .6s ease}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.2)}
+    .btn-primary:hover::before{width:300px;height:300px}
+    .btn-sec{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+    .btn-sec:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+    .glass{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);transition:.25s}
+    .step{width:4rem;height:4rem;border-radius:1rem;display:flex;align-items:center;justify-content:center;
+          background:transparent;border:1px solid rgba(255,255,255,.12);font-weight:700;font-size:1.25rem}
+    /* hero background */
+    .hero-bg{position:absolute;inset:0;background:
+      radial-gradient(circle at 20% 50%, rgba(100,108,255,.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(236,72,153,.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(6,182,212,.15) 0%, transparent 50%),
+      linear-gradient(#000,#000)}
+    .hero-bg::after{content:'';position:absolute;inset:0;
+      background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size:22px 22px;opacity:.06}
+    .badge{display:inline-block;padding:.5rem 1rem;border-radius:9999px;font-weight:600;
+           background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+    .badge-outline{display:inline-block;padding:.5rem 1rem;border-radius:9999px;
+           border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.04)}
+>>>>>>> be93275 (new site)
 
     /* idioma toggle */
     .lang-toggle{position:relative;width:60px;height:30px;background:rgba(255,255,255,.1);
@@ -94,13 +148,20 @@
 
     function site(){return{
       /* ---------- estado ---------- */
+<<<<<<< HEAD
       lang:'pt-BR', nav:false, modal:false, modalCard:null,
       form:{nome:'',email:'',empresa:'',telefone:'',descricao:'',orcamento:'',prazo:''},
+=======
+      lang:'en', nav:false, modal:false, modalCard:null,
+      form:{nome:'',email:'',empresa:'',telefone:'',descricao:'',orcamento:'',prazo:''},
+      serviceSlugs:['agentes-chatbots','automacao-rpa-ia','visao-computacional','predicao-forecast','integracoes-dados','treinamento-enablement'],
+>>>>>>> be93275 (new site)
 
       /* ---------- conteúdo ---------- */
       content:{
         'pt-BR':{
           seo:{
+<<<<<<< HEAD
             title:'Softhaus IA – Automação Inteligente',
             description:'Assistentes, previsões e visão computacional entregues em semanas. IA low-code para escalar negócios.',
             keywords:'inteligência artificial, automação, chatbot, visão computacional, softhaus IA'
@@ -109,6 +170,25 @@
           hero:{title:'IA que <span class="text-grad">automatiza</span> e <span class="text-grad">escala</span> negócios',
                 subtitle:'Assistentes, previsões e visão computacional entregues em semanas.',
                 cta:'Começar projeto IA',secondary:'Explorar benefícios'},
+=======
+            title:'Softhaus AI – Automação Inteligente',
+            description:'Assistentes, previsões e visão computacional entregues em semanas. IA low-code para escalar negócios.',
+            keywords:'inteligência artificial, automação, chatbot, visão computacional, softhaus AI'
+          },
+          nav:{services:'Serviços',benefits:'Benefícios',process:'Processo',cases:'Casos de uso',tech:'Tecnologias',faq:'FAQ',quote:'Falar com expert'},
+          hero:{title:'IA que <span class="text-grad">automatiza</span> e <span class="text-grad">escala</span> negócios',
+                subtitle:'Assistentes, previsões e visão computacional entregues em semanas.',
+                cta:'Começar projeto IA',secondary:'Explorar benefícios'},
+          services:{title:'O que fazemos',
+            items:[
+              {icon:'🗣️',title:'Agentes & Chatbots',desc:'Atendimento, suporte, vendas e backoffice com LLMs alinhados ao seu conhecimento.'},
+              {icon:'⚙️',title:'Automação de Processos (RPA + IA)',desc:'Orquestração de tarefas e integrações para eliminar atividades repetitivas.'},
+              {icon:'👁️',title:'Visão Computacional',desc:'Inspeção de qualidade, OCR, detecção e contagem em tempo real.'},
+              {icon:'📈',title:'Predição & Forecast',desc:'Modelos para churn, demanda, preços e manutenção preditiva.'},
+              {icon:'🔌',title:'Integrações & Dados',desc:'Pipelines, ETL/ELT, warehouses e conectores para unificar fontes.'},
+              {icon:'🎓',title:'Treinamento & Enablement',desc:'Capacitação de times e governança de IA.'}
+            ]},
+>>>>>>> be93275 (new site)
           benefits:[
             {icon:'🤖',title:'Bots 24/7',desc:'Atendimento instantâneo com LLM de ponta.'},
             {icon:'📊',title:'Insights Preditivos',desc:'Modelos que antecipam churn e vendas com >92 % de acurácia.'},
@@ -122,12 +202,43 @@
                     'Selecionamos o modelo SOTA ideal, realizamos fine-tuning com seus dados e atingimos 92–99 % de acurácia validada.',
                     'Publicamos serverless com CI/CD, monitor de drift e retraining automático. Dashboards mostram ganhos em tempo real.'
                    ]},
+<<<<<<< HEAD
           casesTitle:'Nossos <span class="text-grad">cases</span> de IA',
           cases:[
             {name:"Ant'z",title:"Ant'z White-label",desc:'Agente conversacional que reduziu 75 % do tempo médio de atendimento.',metric:'-75 % TMA',color:'primary'},
             {name:'ChatCopilot',title:'ChatCopilot',desc:'Copiloto de vendas que elevou 32 % a taxa de conversão.',metric:'+32 % CVR',color:'accent'},
             {name:'VisionQuality',title:'VisionQuality',desc:'Visão computacional com 99 % de precisão em inspeção.',metric:'99 % accuracy',color:'cta'}
           ],
+=======
+          usecasesTitle:'<span class="text-grad">Use Cases</span> que entregam valor agora',
+          usecases:[
+            {icon:'🤖',title:'Atendimento Inteligente 24/7',desc:'Suporte e vendas em WhatsApp, Web e Voice com roteamento e handoff humano.',slug:'agentes-chatbots'},
+            {icon:'🛒',title:'Copiloto de Vendas',desc:'Qualificação, follow-up e proposta com dados do seu CRM.',slug:'agentes-chatbots'},
+            {icon:'👁️',title:'Inspeção de Qualidade',desc:'Detecção de defeitos e contagem automática em linha.',slug:'visao-computacional'},
+            {icon:'📈',title:'Previsão de Demanda',desc:'Reposição, compras e produção com melhor acurácia.',slug:'predicao-forecast'},
+            {icon:'⚙️',title:'Backoffice Automatizado (RPA + IA)',desc:'Processamento de notas, reconciliações e integrações.',slug:'automacao-rpa-ia'},
+            {icon:'📄',title:'OCR Fiscal/Documental',desc:'Leitura estruturada e validação de documentos.',slug:'visao-computacional'}
+          ],
+          tech:{title:'Tecnologias & Stack',subtitle:'Usamos o que faz sentido para o seu contexto.',
+                stack:['OpenAI','Anthropic','Ollama','LangChain','Supabase','Postgres','dbt','Airflow','Kafka','Redis','AWS','GCP','FastAPI','PyTorch','TensorFlow']},
+          models:{title:'Modelos de engajamento',
+                  items:[
+                    {title:'Discovery Sprint (5–10 dias)',desc:'Imersão rápida para validar valor e viabilidade.',
+                     bullets:['Mapeamento de oportunidades e ROI','Protótipo funcional','Roadmap e estimativas']},
+                    {title:'Projeto Fechado',desc:'Projeto com objetivos e marcos claros.',
+                     bullets:['Escopo definido','Entrega fim a fim','SLA de implantação']},
+                    {title:'Retainer / Squad',desc:'Time dedicado para evolução e sustentação.',
+                     bullets:['Backlog contínuo','Evolução de modelos','SRE/observabilidade']}
+                  ]},
+          faq:{title:'Perguntas frequentes',
+               items:[
+                 {q:'Quanto tempo para colocar em produção?',a:'Geralmente 2–8 semanas, dependendo de escopo, integrações e qualidade dos dados.'},
+                 {q:'Preciso ter dados próprios?',a:'Ajuda, mas podemos iniciar com modelos pré-treinados e evoluir conforme dados ficam disponíveis.'},
+                 {q:'Como ficam LGPD e segurança?',a:'Anonimização, princípio do menor acesso, registro de auditoria e opção de execução em nuvem privada ou on-prem.'},
+                 {q:'Qual o custo?',a:'Projetos iniciam em torno de R$ 25k. Valores finais são definidos após o discovery.'},
+                 {q:'Vocês integram com meus sistemas?',a:'Sim. ERP, CRM, bancos de dados, APIs REST/GraphQL, filas de mensagens e mais.'}
+               ]},
+>>>>>>> be93275 (new site)
           final:{title:'Pronto para escalar com IA?',
                  subtitle:'Receba um diagnóstico gratuito em 48 h.',
                  cta:'Agendar diagnóstico'},
@@ -140,6 +251,7 @@
 
         'en':{
           seo:{
+<<<<<<< HEAD
             title:'Softhaus IA – Intelligent Automation',
             description:'Assistants, forecasts and computer vision delivered in weeks. Low-code AI to scale your business.',
             keywords:'artificial intelligence, automation, chatbot, computer vision, softhaus IA'
@@ -148,6 +260,25 @@
           hero:{title:'AI that <span class="text-grad">automates</span> and <span class="text-grad">scales</span> businesses',
                 subtitle:'Assistants, forecasts and computer vision delivered in weeks.',
                 cta:'Start AI project',secondary:'Explore benefits'},
+=======
+            title:'Softhaus AI – Intelligent Automation',
+            description:'Assistants, forecasts and computer vision delivered in weeks. Low-code AI to scale your business.',
+            keywords:'artificial intelligence, automation, chatbot, computer vision, softhaus AI'
+          },
+          nav:{services:'Services',benefits:'Benefits',process:'Process',cases:'Use Cases',tech:'Tech',faq:'FAQ',quote:'Talk to expert'},
+          hero:{title:'AI that <span class="text-grad">automates</span> and <span class="text-grad">scales</span> businesses',
+                subtitle:'Assistants, forecasts and computer vision delivered in weeks.',
+                cta:'Start AI project',secondary:'Explore benefits'},
+          services:{title:'What we do',
+            items:[
+              {icon:'🗣️',title:'Agents & Chatbots',desc:'Support, sales and backoffice with LLMs aligned to your knowledge base.'},
+              {icon:'⚙️',title:'Process Automation (RPA + AI)',desc:'Task orchestration and integrations to eliminate repetitive work.'},
+              {icon:'👁️',title:'Computer Vision',desc:'Quality inspection, OCR, detection and counting in real-time.'},
+              {icon:'📈',title:'Prediction & Forecast',desc:'Models for churn, demand, pricing and predictive maintenance.'},
+              {icon:'🔌',title:'Integrations & Data',desc:'Pipelines, ETL/ELT, warehouses and connectors to unify sources.'},
+              {icon:'🎓',title:'Training & Enablement',desc:'Team enablement and AI governance.'}
+            ]},
+>>>>>>> be93275 (new site)
           benefits:[
             {icon:'🤖',title:'Bots 24/7',desc:'Instant support powered by cutting-edge LLM.'},
             {icon:'📊',title:'Predictive Insights',desc:'Models anticipating churn and sales with >92 % accuracy.'},
@@ -161,12 +292,43 @@
                     'Pick the best SOTA model, fine-tune with your data and reach 92–99 % validated accuracy.',
                     'Serverless release with CI/CD, drift monitor and auto-retraining. Dashboards show gains in real-time.'
                    ]},
+<<<<<<< HEAD
           casesTitle:'Our <span class="text-grad">AI success</span> stories',
           cases:[
             {name:"Ant'z",title:"Ant'z White-label",desc:'Conversational agent that cut average handling time by 75 %.',metric:'-75 % AHT',color:'primary'},
             {name:'ChatCopilot',title:'ChatCopilot',desc:'Sales copilot that boosted conversion rate by 32 %.',metric:'+32 % CVR',color:'accent'},
             {name:'VisionQuality',title:'VisionQuality',desc:'Computer-vision QC hitting 99 % inspection accuracy.',metric:'99 % accuracy',color:'cta'}
           ],
+=======
+          usecasesTitle:'Practical <span class="text-grad">Use Cases</span> delivering value now',
+          usecases:[
+            {icon:'🤖',title:'24/7 Intelligent Support',desc:'Support and sales on WhatsApp, Web and Voice with routing and human handoff.',slug:'agentes-chatbots'},
+            {icon:'🛒',title:'Sales Copilot',desc:'Qualification, follow-up and proposals powered by your CRM data.',slug:'agentes-chatbots'},
+            {icon:'👁️',title:'Quality Inspection',desc:'Defect detection and automatic counting on the line.',slug:'visao-computacional'},
+            {icon:'📈',title:'Demand Forecasting',desc:'Replenishment, purchasing and production with higher accuracy.',slug:'predicao-forecast'},
+            {icon:'⚙️',title:'Backoffice Automation (RPA + AI)',desc:'Invoice processing, reconciliations and integrations.',slug:'automacao-rpa-ia'},
+            {icon:'📄',title:'Document/OCR',desc:'Structured reading and document validation.',slug:'visao-computacional'}
+          ],
+          tech:{title:'Technologies & Stack',subtitle:'We pick what fits your context.',
+                stack:['OpenAI','Anthropic','Ollama','LangChain','Supabase','Postgres','dbt','Airflow','Kafka','Redis','AWS','GCP','FastAPI','PyTorch','TensorFlow']},
+          models:{title:'Engagement models',
+                  items:[
+                    {title:'Discovery Sprint (5–10 days)',desc:'Rapid immersion to validate value and feasibility.',
+                     bullets:['Opportunity & ROI mapping','Functional prototype','Roadmap and estimates']},
+                    {title:'Fixed-scope Project',desc:'Project with clear objectives and milestones.',
+                     bullets:['Defined scope','End-to-end delivery','Deployment SLA']},
+                    {title:'Retainer / Squad',desc:'Dedicated team for evolution and operations.',
+                     bullets:['Continuous backlog','Model evolution','SRE/observability']}
+                  ]},
+          faq:{title:'Frequently asked questions',
+               items:[
+                 {q:'How long to go live?',a:'Typically 2–8 weeks depending on scope, integrations and data quality.'},
+                 {q:'Do I need my own data?',a:'It helps, but we can start with pre-trained models and evolve as data becomes available.'},
+                 {q:'What about security & privacy?',a:'Anonymization, least-privilege access, audit logs and option to run in private cloud or on‑prem.'},
+                 {q:'What does it cost?',a:'Projects start around $5k–$10k. Final pricing is defined after discovery.'},
+                 {q:'Do you integrate with my systems?',a:'Yes. ERP, CRM, databases, REST/GraphQL APIs, message queues and more.'}
+               ]},
+>>>>>>> be93275 (new site)
           final:{title:'Ready to scale with AI?',
                  subtitle:'Get a free assessment in 48 h.',
                  cta:'Book assessment'},
@@ -187,7 +349,12 @@
 
       init(){
         const saved = localStorage.getItem('preferred-lang');
+<<<<<<< HEAD
         if(saved){this.lang = saved; document.documentElement.lang = this.lang;}
+=======
+        this.lang = saved || 'en';
+        document.documentElement.lang = this.lang;
+>>>>>>> be93275 (new site)
       },
 
       openForm(){this.modal=true;this.modalCard=null},
@@ -215,6 +382,7 @@
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
     <a href="/" class="flex items-center space-x-2">
       <img src="../assets/img/logo-softhaus.svg" class="w-8" alt="Softhaus">
+<<<<<<< HEAD
       <span class="font-heading font-bold">Softhaus IA</span>
     </a>
 
@@ -223,6 +391,19 @@
       <a href="#beneficios" class="hover:text-primary" x-text="content[lang].nav.benefits"></a>
       <a href="#como"       class="hover:text-primary" x-text="content[lang].nav.process"></a>
       <a href="#cases"      class="hover:text-primary" x-text="content[lang].nav.cases"></a>
+=======
+      <span class="font-heading font-bold">Softhaus AI</span>
+    </a>
+
+    <!-- desktop -->
+    <nav class="hidden md:flex items-center space-x-8 text-sm uppercase tracking-wide">
+      <a href="#servicos"  class="hover:text-primary" x-text="content[lang].nav.services"></a>
+      <a href="#beneficios" class="hover:text-primary" x-text="content[lang].nav.benefits"></a>
+      <a href="#como"       class="hover:text-primary" x-text="content[lang].nav.process"></a>
+      <a href="#usecases"   class="hover:text-primary" x-text="content[lang].nav.cases"></a>
+      <a href="#tech"       class="hover:text-primary" x-text="content[lang].nav.tech"></a>
+      <a href="#faq"        class="hover:text-primary" x-text="content[lang].nav.faq"></a>
+>>>>>>> be93275 (new site)
 
       <!-- idioma -->
       <div class="flex items-center space-x-3">
@@ -250,9 +431,18 @@
   <!-- mobile menu -->
   <div x-show="nav" x-transition class="md:hidden border-t border-white/10 bg-[#070814]/90 backdrop-blur-sm">
     <div class="px-6 py-4 space-y-3">
+<<<<<<< HEAD
       <a href="#beneficios" @click="nav=false" class="block" x-text="content[lang].nav.benefits"></a>
       <a href="#como"       @click="nav=false" class="block" x-text="content[lang].nav.process"></a>
       <a href="#cases"      @click="nav=false" class="block" x-text="content[lang].nav.cases"></a>
+=======
+      <a href="#servicos"  @click="nav=false" class="block" x-text="content[lang].nav.services"></a>
+      <a href="#beneficios" @click="nav=false" class="block" x-text="content[lang].nav.benefits"></a>
+      <a href="#como"       @click="nav=false" class="block" x-text="content[lang].nav.process"></a>
+      <a href="#usecases"   @click="nav=false" class="block" x-text="content[lang].nav.cases"></a>
+      <a href="#tech"       @click="nav=false" class="block" x-text="content[lang].nav.tech"></a>
+      <a href="#faq"        @click="nav=false" class="block" x-text="content[lang].nav.faq"></a>
+>>>>>>> be93275 (new site)
 
       <!-- idioma mobile -->
       <div class="flex items-center justify-center space-x-3 py-2">
@@ -272,13 +462,14 @@
 
 <!-- ░░░ HERO -->
 <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
-  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-40">
-    <source src="../video/ai_background.mp4" type="video/mp4">
-  </video>
-  <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/90"></div>
+  <div class="absolute inset-0 hero-bg"></div>
 
   <div class="relative z-10 text-center px-6 max-w-3xl" data-aos="fade-up">
+<<<<<<< HEAD
     <h1 class="text-5xl md:text-7xl font-heading font-bold mb-6 leading-tight" x-html="content[lang].hero.title"></h1>
+=======
+    <h1 class="text-5xl md:text-7xl font-heading font-light mb-6 leading-tight" x-html="content[lang].hero.title"></h1>
+>>>>>>> be93275 (new site)
     <p class="text-lg md:text-2xl text-gray-300 mb-10" x-text="content[lang].hero.subtitle"></p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
       <button class="btn btn-primary py-4 px-8" @click="openForm()" x-text="content[lang].hero.cta"></button>
@@ -287,11 +478,32 @@
   </div>
 </section>
 
+<!-- ░░░ SERVIÇOS -->
+<section id="servicos" class="py-24">
+  <div class="text-center mb-16" data-aos="fade-up">
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-text="content[lang].services.title"></h2>
+  </div>
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+    <template x-for="(s,i) in content[lang].services.items" :key="i">
+      <a class="glass p-8 rounded-2xl text-left block" data-aos="fade-up" :data-aos-delay="50+50*i"
+         :href="'servicos/'+serviceSlugs[i]+'.html'">
+        <div class="step mb-5" x-text="s.icon"></div>
+        <h3 class="font-heading text-lg mb-3" x-text="s.title"></h3>
+        <p class="text-sm text-gray-400" x-text="s.desc"></p>
+      </a>
+    </template>
+  </div>
+</section>
+
 <!-- ░░░ BENEFÍCIOS -->
 <section id="beneficios" class="py-24">
   <div class="text-center mb-16" data-aos="fade-up">
     <h2 class="text-4xl md:text-5xl font-heading font-bold">
+<<<<<<< HEAD
       <span x-html="content[lang].nav.benefits"></span> <span class="text-grad">Softhaus IA</span>
+=======
+      <span x-html="content[lang].nav.benefits"></span> <span class="text-grad">Softhaus AI</span>
+>>>>>>> be93275 (new site)
     </h2>
   </div>
   <div class="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 px-6">
@@ -322,9 +534,10 @@
   </div>
 </section>
 
-<!-- ░░░ CASES -->
-<section id="cases" class="py-24">
+<!-- ░░░ USE CASES -->
+<section id="usecases" class="py-24">
   <div class="text-center mb-16" data-aos="fade-up">
+<<<<<<< HEAD
     <h2 class="text-4xl md:text-5xl font-heading font-bold" x-html="content[lang].casesTitle"></h2>
   </div>
   <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
@@ -340,10 +553,24 @@
             <span class="text-sm font-semibold" :class="{'text-primary':c.color==='primary','text-accent':c.color==='accent','text-cta':c.color==='cta'}" x-text="c.metric"></span>
             <button class="btn-sec px-4 py-2 text-xs" @click="openForm()" x-text="lang==='pt-BR'?'Quero igual':'Want similar'"></button>
           </div>
+=======
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-html="content[lang].usecasesTitle"></h2>
+  </div>
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+    <template x-for="(c,i) in content[lang].usecases" :key="i">
+      <div class="glass rounded-2xl p-6 flex flex-col" data-aos="fade-up" :data-aos-delay="40+40*i">
+        <div class="step mb-5" x-text="c.icon"></div>
+        <h3 class="font-heading font-bold mb-2" x-text="c.title"></h3>
+        <p class="text-gray-400 text-sm mb-4 flex-1" x-text="c.desc"></p>
+        <div class="flex justify-between items-center">
+          <a class="btn-sec px-4 py-2 text-xs" :href="'servicos/'+c.slug+'.html'" x-text="lang==='pt-BR'?'Ver solução':'View solution'"></a>
+          <button class="btn-sec px-4 py-2 text-xs" @click="openForm()" x-text="lang==='pt-BR'?'Falar com expert':'Talk to expert'"></button>
+>>>>>>> be93275 (new site)
         </div>
       </div>
     </template>
   </div>
+<<<<<<< HEAD
 </section>
 
 <!-- ░░░ CTA FINAL -->
@@ -353,6 +580,73 @@
     <h2 class="text-4xl md:text-6xl font-heading font-bold mb-6" x-text="content[lang].final.title"></h2>
     <p class="text-lg md:text-2xl opacity-90 mb-12" x-text="content[lang].final.subtitle"></p>
     <button class="btn btn-primary py-4 px-10" @click="openForm()" x-text="content[lang].final.cta"></button>
+=======
+</section>
+
+<!-- ░░░ TECNOLOGIAS -->
+<section id="tech" class="py-24 bg-gradient-to-b from-white/5 via-transparent to-white/5">
+  <div class="text-center mb-10" data-aos="fade-up">
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-text="content[lang].tech.title"></h2>
+    <p class="text-gray-300 mt-4" x-text="content[lang].tech.subtitle"></p>
+  </div>
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-wrap items-center justify-center gap-3">
+      <template x-for="(t,i) in content[lang].tech.stack" :key="i">
+        <span class="badge-outline" x-text="t"></span>
+      </template>
+    </div>
+  </div>
+</section>
+
+<!-- ░░░ MODELOS DE ENGAJAMENTO -->
+<section id="modelos" class="py-24">
+  <div class="text-center mb-16" data-aos="fade-up">
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-text="content[lang].models.title"></h2>
+  </div>
+  <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+    <template x-for="(m,i) in content[lang].models.items" :key="i">
+      <div class="glass p-8 rounded-2xl" data-aos="fade-up" :data-aos-delay="50+50*i">
+        <h3 class="font-heading font-semibold text-lg mb-2" x-text="m.title"></h3>
+        <p class="text-gray-400 text-sm mb-4" x-text="m.desc"></p>
+        <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside">
+          <template x-for="(b,j) in m.bullets" :key="j">
+            <li x-text="b"></li>
+          </template>
+        </ul>
+      </div>
+    </template>
+  </div>
+</section>
+
+<!-- ░░░ CTA FINAL -->
+<section class="py-32">
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="glass rounded-2xl p-10 text-center" data-aos="zoom-in">
+      <h2 class="text-4xl md:text-6xl font-heading font-bold mb-6" x-text="content[lang].final.title"></h2>
+      <p class="text-lg md:text-2xl opacity-90 mb-12" x-text="content[lang].final.subtitle"></p>
+      <button class="btn btn-primary py-4 px-10" @click="openForm()" x-text="content[lang].final.cta"></button>
+    </div>
+  </div>
+ </section>
+
+<!-- ░░░ FAQ -->
+<section id="faq" class="py-24">
+  <div class="text-center mb-12" data-aos="fade-up">
+    <h2 class="text-4xl md:text-5xl font-heading font-bold" x-text="content[lang].faq.title"></h2>
+  </div>
+  <div class="max-w-3xl mx-auto px-6" x-data="{open:null}">
+    <template x-for="(f,i) in content[lang].faq.items" :key="i">
+      <div class="glass rounded-2xl mb-4 overflow-hidden">
+        <button class="w-full text-left p-5 flex items-center justify-between" @click="open=open===i?null:i">
+          <span class="font-heading font-semibold" x-text="f.q"></span>
+          <span class="text-xl" x-text="open===i?'–':'+'"></span>
+        </button>
+        <div x-show="open===i" x-transition>
+          <div class="px-5 pb-5 text-gray-300 text-sm" x-text="f.a"></div>
+        </div>
+      </div>
+    </template>
+>>>>>>> be93275 (new site)
   </div>
 </section>
 
@@ -361,7 +655,11 @@
   <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between md:items-center gap-6">
     <div class="flex items-center space-x-3">
       <img src="../assets/img/logo-softhaus.svg" class="w-9" alt="Softhaus">
+<<<<<<< HEAD
       <span class="font-heading font-bold text-lg">Softhaus IA</span>
+=======
+      <span class="font-heading font-bold text-lg">Softhaus AI</span>
+>>>>>>> be93275 (new site)
     </div>
 
     <!-- ícones sociais -->

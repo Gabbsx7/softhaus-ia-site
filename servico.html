@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html x-data="servicePage()" :lang="lang">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title x-text="metaTitle">Softhaus AI – Serviço</title>
+  <meta name="description" x-bind:content="metaDesc"/>
+  <link rel="icon" type="image/svg+xml" href="../assets/img/favicon.svg"/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = { theme:{ extend:{ colors:{primary:'#ec4899',accent:'#646cff',cta:'#06b6d4',dark:'#000',surface:'#0a0a0a'}, fontFamily:{sans:['Inter','sans-serif'],heading:['Inter','sans-serif']}}}};
+  </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css"/>
+  <script defer src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+  <style>
+    body{background:#000;color:#fff;font-family:Inter,sans-serif}
+    h1,h2,h3,h4{font-family:'Inter',sans-serif}
+    h1{letter-spacing:-.02em}
+    .hero-bg{position:absolute;inset:0;background:
+      radial-gradient(circle at 20% 50%, rgba(100,108,255,.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(236,72,153,.15) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(6,182,212,.15) 0%, transparent 50%),
+      linear-gradient(#000,#000)}
+    .hero-bg::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);background-size:22px 22px;opacity:.06}
+    .glass{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px)}
+    .badge{display:inline-block;padding:.35rem .75rem;border-radius:9999px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);font-weight:600}
+    .btn{border-radius:9999px;font-weight:600;transition:.25s}
+    .btn-primary{position:relative;overflow:hidden;background:#fff;color:#000}
+    .btn-primary::before{content:'';position:absolute;top:50%;left:50%;width:0;height:0;border-radius:50%;background:#646cff;transform:translate(-50%,-50%);transition:width .6s ease,height .6s ease}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,255,255,.2)}
+    .btn-primary:hover::before{width:300px;height:300px}
+    .btn-sec{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2)}
+    .btn-sec:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);transform:translateY(-2px)}
+    .lang-toggle{position:relative;width:60px;height:30px;background:rgba(255,255,255,.1);border-radius:15px;cursor:pointer;transition:.3s}
+    .lang-toggle::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;transition:.3s}
+    .lang-toggle.active::after{transform:translateX(30px)}
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded',()=>{
+      AOS.init({duration:800,once:true});
+      if(window.mermaid){ mermaid.initialize({ startOnLoad:true, theme:'dark' }); }
+    });
+
+    function servicePage(){
+      return{
+        lang:'en',
+        slug:'',
+        metaTitle:'Softhaus AI – Serviço',
+        metaDesc:'Soluções premium em IA e automação para clientes premium.',
+        navOpen:false,
+        modal:false,
+        form:{nome:'',email:'',empresa:'',telefone:'',descricao:'',orcamento:'',prazo:''},
+        formText:{
+          'pt-BR':{title:'Solicitar Orçamento',send:'Enviar',budget:['Até R$ 50 k','R$ 50 k – 100 k','+ de R$ 100 k'],timeline:['1-2 meses','3-4 meses','+ de 4 meses'],alerts:{ok:'Recebido! ✅',fail:'Algo deu errado 😕\n'}},
+          'en':{title:'Request Quote',send:'Send',budget:['Up to $12k','$12k – $25k','+ $25k'],timeline:['1-2 months','3-4 months','+ 4 months'],alerts:{ok:'Got it! ✅',fail:'Something went wrong 😕\n'}}
+        },
+        // map slugs -> content
+        content:{
+          'pt-BR':{
+            back:'Voltar',
+            cta:'Falar com expert',
+            lang:'Idioma',
+            sections:{
+              value:'Por que este serviço é premium',
+              kpis:'KPIs que otimizamos',
+              how:'Como trabalhamos',
+              stages:'Detalhamento das etapas',
+              arch:'Arquitetura',
+              deliverables:'Entregáveis',
+              outcomes:'Resultados esperados',
+              usecases:'Casos de uso típicos',
+              stack:'Stack & Integrações',
+              frameworks:'Frameworks & Ferramentas',
+              security:'Segurança & Compliance',
+              observability:'Observabilidade & SLAs',
+              templates:'Playbooks & Templates',
+              pricing:'Planos & Preços',
+              engagement:'Modelos de Engajamento',
+              faq:'FAQ'
+            },
+            final:{title:'Pronto para começar?',subtitle:'Agende um diagnóstico sem custo. Entrega premium para clientes premium.'},
+            services:{
+              'agentes-chatbots':{
+                title:'Agentes & Chatbots',
+                subtitle:'Conversas que convertem e resolvem, com governança e performance enterprise.',
+                tags:['LLM Alignment','RAG Enterprise','Omnichannel','Observabilidade'],
+                value:[
+                  'Arquitetura de conhecimento com RAG de alto desempenho (caching semântico, re-ranking e fallback).',
+                  'Guardrails e moderação com políticas sob medida (brand safety e compliance).',
+                  'Integração omnichannel (WhatsApp, Web, Voice) com roteamento inteligente e handoff humano.',
+                  'SLOs de latência e qualidade, com avaliação automática e feedback humano.'
+                ],
+                kpis:['AHT','CSAT','FCR','Conversão'],
+                how:[
+                  'Discovery de jornada e intents; definição de KPIs.',
+                  'Design de prompts, ferramentas e memória; avaliação offline/online.',
+                  'Integração com CRMs/ERPs e automações; observabilidade (traces, custo, qualidade).',
+                  'Hardening de produção: escalabilidade, limites de custo e testes de regressão.'
+                ],
+                how_details:[
+                  {title:'Discovery & Métricas',bullets:['Mapeamento de intents e canais','Definição de KPIs (CSAT, AHT, FCR, conversão)','Análise de riscos e governança'],tools:['Productboard','Analytics','Hotjar']},
+                  {title:'Design de Agente',bullets:['Arquitetura de ferramentas (toolformer/RAG)','Memória curta/longa e persona','Testes A/B de prompting'],tools:['LangChain','OpenAI evals','Promptfoo']},
+                  {title:'Integração & Dados',bullets:['Sincronização com CRM/ERP','Indexação segura de base de conhecimento','Webhooks e filas para eventos'],tools:['Supabase','pgvector','Kafka/SQS']},
+                  {title:'Operação & SRE',bullets:['Observabilidade de custo/qualidade','Tuning contínuo e guardrails','Planos de rollback e limites'],tools:['OpenTelemetry','W&B Traces','Grafana']}
+                ],
+                deliverables:[
+                  'Playbook de conversas e intents priorizadas',
+                  'Workspace configurado (RAG + flows + integrações)',
+                  'Dashboards de qualidade e custo',
+                  'Runbook de operação e governança'
+                ],
+                outcomes:[
+                  'Redução de TMA',
+                  'Aumento de CSAT e resolução',
+                  'Conversão assistida em canais digitais'
+                ],
+                usecases:['Suporte ao cliente','Qualificação de vendas','Backoffice/FAQ','Assistente de conhecimento'],
+                stack:['OpenAI/Anthropic','LangChain','Vector DB (pgvector)','Supabase','WhatsApp/Voice','Observability'],
+                frameworks:[
+                  {cat:'LLMs',items:['OpenAI','Anthropic','Ollama']},
+                  {cat:'Orquestração',items:['LangChain','LlamaIndex']},
+                  {cat:'Vector DB',items:['pgvector','FAISS']},
+                  {cat:'Datastores',items:['Supabase Postgres','S3/GCS']},
+                  {cat:'MLOps',items:['Weights & Biases','MLflow']},
+                  {cat:'Backend',items:['FastAPI','Node.js']},
+                  {cat:'Frontend',items:['Next.js','Tailwind CSS']},
+                  {cat:'Infra',items:['Vercel','AWS','Docker']}
+                ],
+                security:['Anonimização e mascaramento','Controle de acesso por função (RBAC)','Registro de auditoria e retenção','Políticas de privacidade e moderação'],
+                observability:['Tracing de conversas e custos','Avaliação automática (LLM‑as‑a‑judge)','Alertas de latência e quedas de qualidade','SLOs definidos por canal'],
+                templates:['Guia de prompts e persona','Catálogo de ferramentas','Checklist de go‑live','Runbook de incidentes'],
+                diagrams:[
+                  {title:'Fluxo RAG/Agent',code:`graph LR\n  U[Usuário] -->|Query| AG[Agente]\n  AG --> TOOLS{Ferramentas}\n  TOOLS --> RAG[RAG]\n  RAG --> VDB[Vector DB]\n  VDB --> KB[Base de conhecimento]\n  AG --> CRM[CRM]\n  AG --> APIs[APIs externas]\n  AG --> RESP[(Resposta)]\n  RESP --> U`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'Sob consulta',features:['5–10 dias','Mapeamento de valor','Protótipo funcional']},
+                  {name:'Projeto',from:'Sob consulta',features:['Escopo fechado','Entrega fim a fim','SLA de implantação']},
+                  {name:'Retainer',from:'Sob consulta',features:['Evolução contínua','SRE/observabilidade','Roadmap mensal']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Validação rápida',duration:'1–2 semanas',notes:'Protótipo e roadmap'},
+                  {name:'Projeto',bestFor:'Entrega de solução',duration:'4–12 semanas',notes:'Escopo e milestones'},
+                  {name:'Retainer',bestFor:'Operação e evolução',duration:'Mensal',notes:'Backlog e SLAs'}
+                ]
+              },
+              'automacao-rpa-ia':{
+                title:'Automação de Processos (RPA + IA)',
+                subtitle:'Orquestrações resilientes para eliminar atividades repetitivas com segurança.',
+                tags:['RPA','Orquestração','APIs','Queueing'],
+                value:[
+                  'Mapeamento ponta-a-ponta com métricas de tempo e erro por etapa.',
+                  'Bots robustos com retries, idempotência e DLQs.',
+                  'Observabilidade de fila e SLAs de throughput.',
+                  'Controles de acesso e trilhas de auditoria.'
+                ],
+                kpis:['Throughput','Taxa de erro','Tempo de ciclo','SLA'],
+                how:[
+                  'Discovery de processos e priorização por ROI.',
+                  'Prova de valor em 10 dias com 1–2 automações críticas.',
+                  'Escalonamento controlado e hardening de produção.',
+                  'Treinamento de time e operação assistida.'
+                ],
+                how_details:[
+                  {title:'Descoberta & ROI',bullets:['Mapeamento SIPOC e métricas','Cálculo de payback e priorização'],tools:['Miro','dbt metrics']},
+                  {title:'Desenho de Fluxos',bullets:['Orquestração determinística','Idempotência e retries'],tools:['Temporal','Airflow']},
+                  {title:'Integrações',bullets:['APIs REST/GraphQL','ETL/ELT e validações'],tools:['FastAPI','Supabase','Great Expectations']},
+                  {title:'Operação',bullets:['DLQs e reprocessamento','SLA/SLI por fila'],tools:['Kafka/SQS','Grafana','OpenTelemetry']}
+                ],
+                deliverables:['Mapa de processos','Bots e orquestradores','Dashboards e alertas','Runbook & SLAs'],
+                outcomes:['Redução de custo operacional','Menos erros e retrabalho','Tempo de ciclo menor'],
+                usecases:['Processamento de notas','Reconciliações','Sincronização de dados','Geração de relatórios'],
+                stack:['Airflow/Temporal','APIs REST/GraphQL','Supabase/Postgres','Filas (Kafka/SQS)','Docker','Observability'],
+                frameworks:[
+                  {cat:'Orquestração',items:['Temporal','Apache Airflow']},
+                  {cat:'Filas',items:['Kafka','SQS']},
+                  {cat:'APIs',items:['FastAPI','Node.js']},
+                  {cat:'Data',items:['Supabase Postgres','dbt']},
+                  {cat:'Qualidade',items:['Great Expectations']},
+                  {cat:'Infra',items:['Docker','AWS','GCP']}
+                ],
+                security:['Auditoria de tarefas','Padrões de segredo (Vault/KMS)','RBAC em orquestradores'],
+                observability:['Métricas de fila e throughput','Tracing distribuído','Alertas de erro e tempo de ciclo'],
+                templates:['Blueprint de automação','Checklist de integração','Modelo de SLA','Runbook de DLQ'],
+                diagrams:[
+                  {title:'Orquestração RPA',code:`graph TD\n  TRG[Trigger]-->Q[Queue]\n  Q-->W1[Worker A]\n  Q-->W2[Worker B]\n  W1-->ERP[ERP]\n  W2-->CRM[CRM]\n  W1-->DLQ[DLQ]\n  Monitor-->Q`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'Sob consulta',features:['10 dias','1–2 automações','Métricas de ROI']},
+                  {name:'Projeto',from:'Sob consulta',features:['Múltiplos fluxos','Observabilidade','SLA de operação']},
+                  {name:'Retainer',from:'Sob consulta',features:['Backlog contínuo','Melhorias','Suporte dedicado']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Prova de valor',duration:'~2 semanas',notes:'Automação crítica'},
+                  {name:'Projeto',bestFor:'Escala controlada',duration:'4–8 semanas',notes:'Vários fluxos'},
+                  {name:'Retainer',bestFor:'Operação 24/7',duration:'Mensal',notes:'SRE e melhorias'}
+                ]
+              },
+              'visao-computacional':{
+                title:'Visão Computacional',
+                subtitle:'Inspeção de alta precisão e OCR confiável em ambientes industriais.',
+                tags:['OCR','Detecção','Classificação','Edge/Cloud'],
+                value:[
+                  'Pipelines com augmentation e active learning para qualidade contínua.',
+                  'Desempenho validado com benchmarks e testes de robustez.',
+                  'Deploy em edge ou cloud com MLOps para re-treino.',
+                  'Integração com MES/ERP e equipamentos de linha.'
+                ],
+                kpis:['Acurácia','Precisão/Recall','Latência','Falsos negativos'],
+                how:['Coleta e rotulagem','Treino e validação','Integração em linha','Monitoramento e re-treino'],
+                how_details:[
+                  {title:'Dataset & Rotulagem',bullets:['Coleta controlada e balanceada','Guidelines e auditoria de rótulos'],tools:['Label Studio','Roboflow']},
+                  {title:'Treino & Validação',bullets:['Augmentation e mixup','Benchmarks e holdout industrial'],tools:['PyTorch','Albumentations']},
+                  {title:'Serviço & Edge',bullets:['Conversão ONNX/TensorRT','Optimizações e quantização'],tools:['ONNX','TensorRT','OpenVINO']},
+                  {title:'MLOps',bullets:['Monitor de drift e re‑treino','Versionamento de dados/modelos'],tools:['MLflow','W&B','DVC']}
+                ],
+                deliverables:['Datasets curados','Modelos e contêineres','Dashboards de precisão','Procedimentos de operação'],
+                outcomes:['Precisão alta','Redução de perdas','Rastreabilidade'],
+                usecases:['Inspeção de qualidade','OCR de documentos','Detecção de objetos','Contagem automática'],
+                stack:['PyTorch','OpenCV','ONNX/TensorRT','Edge devices','FastAPI','Supabase'],
+                frameworks:[
+                  {cat:'Modelagem',items:['PyTorch','TorchVision']},
+                  {cat:'Visão',items:['OpenCV','Albumentations']},
+                  {cat:'Serviço',items:['FastAPI','ONNX Runtime','TensorRT']},
+                  {cat:'MLOps',items:['MLflow','W&B','DVC']}
+                ],
+                security:['Anonimização de imagens','Controle de acesso a datasets','Logs de inferência'],
+                observability:['Métricas de precisão por classe','Latência por dispositivo','Monitor de drift visual'],
+                templates:['Pipeline de rotulagem','Checklist de validação','Playbook de re‑treino'],
+                diagrams:[
+                  {title:'Pipeline CV',code:`graph LR\n  CAM[Camera]-->EDGE[Edge Inference]\n  EDGE-->MES[MES/ERP]\n  EDGE-->MON[Monitoring]\n  DS[Dataset]-->Train[Training]\n  Train-->EDGE`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'Sob consulta',features:['Aquisição de amostras','POC de modelo','Relatório de viabilidade']},
+                  {name:'Projeto',from:'Sob consulta',features:['Dataset curado','Treino/serving','Integração em linha']},
+                  {name:'Retainer',from:'Sob consulta',features:['Re‑treino contínuo','Melhorias','Monitor de drift']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Validação técnica',duration:'2–3 semanas',notes:'POC com amostras'},
+                  {name:'Projeto',bestFor:'Produção',duration:'6–12 semanas',notes:'Linha integrada'},
+                  {name:'Retainer',bestFor:'Evolução',duration:'Mensal',notes:'Re‑treino e SRE'}
+                ]
+              },
+              'predicao-forecast':{
+                title:'Predição & Forecast',
+                subtitle:'Modelos que antecipam demanda, preços e churn com governança de dados.',
+                tags:['Time-series','ML','Causal','MLOps'],
+                value:[
+                  'Feature store e experiment tracking para ciência de dados reprodutível.',
+                  'Modelagem hierárquica e sazonalidade múltipla.',
+                  'Cenários e análise causal.',
+                  'Monitoramento de drift e re-treino automático.'
+                ],
+                kpis:['MAPE','RMSE','Uplift','Redução de churn'],
+                how:['Discovery de variáveis','Experimentação','Validação e stress test','Operacionalização e monitoramento'],
+                how_details:[
+                  {title:'Descoberta de Variáveis',bullets:['Feature sourcing e lint','Seleção por importância e SHAP'],tools:['dbt','pandas','SHAP']},
+                  {title:'Modelagem',bullets:['Hierárquico e múltipla sazonalidade','Exógenas e efeitos de calendário'],tools:['Prophet','ARIMA','XGBoost']},
+                  {title:'Validação',bullets:['Backtesting por janela','Stress test e rupturas'],tools:['scikit‑learn','NumPy']},
+                  {title:'Operação',bullets:['Pipelines e agendamentos','Monitor de drift e re‑treino'],tools:['Airflow','MLflow']}
+                ],
+                deliverables:['Relatório de variáveis','Modelos e pipelines','Dashboards de forecast','Playbook de decisão'],
+                outcomes:['Melhor acurácia de previsão','Estoque e preços otimizados','Redução de churn'],
+                usecases:['Demanda','Precificação','Churn','Manutenção preditiva'],
+                stack:['Prophet/ARIMA','XGBoost','scikit-learn','mlflow','dbt','Supabase'],
+                frameworks:[
+                  {cat:'Time‑series',items:['Prophet','ARIMA']},
+                  {cat:'ML',items:['XGBoost','scikit‑learn']},
+                  {cat:'Pipelines',items:['dbt','Airflow']},
+                  {cat:'MLOps',items:['MLflow']}
+                ],
+                security:['Governança de dados e lineage','Controle de acesso a dados sensíveis'],
+                observability:['MAPE/RMSE por série','Alertas de drift e rupturas','Custo de predição'],
+                templates:['Template de backtesting','Dashboard de forecast','Runbook de re‑treino'],
+                diagrams:[
+                  {title:'Forecast Pipeline',code:`graph LR\n  SRC[Sources]-->ETL[ETL/ELT]\n  ETL-->WH[Warehouse]\n  WH-->FE[Features]\n  FE-->MODEL[Forecast Model]\n  MODEL-->DASH[Dashboards]`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'Sob consulta',features:['Exploração de variáveis','Quick backtesting','Roadmap']},
+                  {name:'Projeto',from:'Sob consulta',features:['Hierarchical models','Pipelines & dashboards','Governance']},
+                  {name:'Retainer',from:'Sob consulta',features:['Continuous retraining','Improvements','Executive support']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Value assessment',duration:'2–3 semanas',notes:'Backtesting e plano'},
+                  {name:'Project',bestFor:'Operationalize',duration:'4–8 semanas',notes:'Ready pipelines'},
+                  {name:'Retainer',bestFor:'Evoluir acurácia',duration:'Mensal',notes:'Monitor e re‑treino'}
+                ]
+              },
+              'integracoes-dados':{
+                title:'Integrações & Dados',
+                subtitle:'Dados certos, no lugar certo, com qualidade e segurança.',
+                tags:['ETL/ELT','Warehouses','Streaming','Governança'],
+                value:['Arquitetura de dados moderna','Qualidade e catálogos','Streaming & CDC','Governança e segurança'],
+                kpis:['Freshness','Completeness','Latência','Custo'],
+                how:['Descoberta e mapeamento','Pipelines e modelagem','Catálogo e qualidade','Observabilidade e custos'],
+                how_details:[
+                  {title:'Arquitetura',bullets:['Diagrama de domínios e fluxos','Padrões de ingestão e transformação'],tools:['dbt','Lakehouse']},
+                  {title:'Ingestão',bullets:['ELT com conectores','CDC e streaming'],tools:['Airbyte/Fivetran','Kafka']},
+                  {title:'Modelagem',bullets:['Camadas bronze/prata/ouro','Data marts por domínio'],tools:['dbt','Postgres']},
+                  {title:'Qualidade & Custos',bullets:['Testes e SLAs de dados','Orçamento e controle de gastos'],tools:['Great Expectations','Cost Explorer']}
+                ],
+                deliverables:['Diagramas e IaC','Pipelines e modelos','Data catalog','SLAs e dashboards'],
+                outcomes:['Dados confiáveis','Tempo de acesso menor','Custos sob controle'],
+                usecases:['Unificação de fontes','CDC/streaming','APIs e webhooks','Data mart analítico'],
+                stack:['dbt','Airbyte/Fivetran','Kafka','Supabase/Postgres','DuckDB','Great Expectations'],
+                frameworks:[
+                  {cat:'Ingestão',items:['Airbyte','Fivetran']},
+                  {cat:'Streaming',items:['Kafka']},
+                  {cat:'Transformation',items:['dbt']},
+                  {cat:'Armazenamento',items:['Supabase Postgres','DuckDB']},
+                  {cat:'Quality',items:['Great Expectations']}
+                ],
+                security:['Governança de acesso (RBAC/ABAC)','At‑rest/in‑transit encryption','Column masking'],
+                observability:['Freshness/volume/anomaly','Rows impacted per run','Failure alerts'],
+                templates:['Modelo de catálogo','Blueprint de pipeline ELT','Checklist de qualidade'],
+                diagrams:[
+                  {title:'Arquitetura de Dados',code:`graph LR\n  Conn[Connectors]-->ELT[ELT]\n  ELT-->DW[Data Warehouse]\n  DW-->DBT[dbt Models]\n  DBT-->MARTS[Data Marts]`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'Sob consulta',features:['Blueprint de arquitetura','Backlog priorizado','Plano de execução']},
+                  {name:'Projeto',from:'Sob consulta',features:['Pipelines e modelos','Catálogo e qualidade','SLA de dados']},
+                  {name:'Retainer',from:'Sob consulta',features:['Evolução e monitoria','Novas integrações','Otimização de custos']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Desenho de arquitetura',duration:'1–2 semanas',notes:'Plano e POC'},
+                  {name:'Projeto',bestFor:'Implementação',duration:'4–10 semanas',notes:'ELT+dbt prontos'},
+                  {name:'Retainer',bestFor:'Operação',duration:'Mensal',notes:'Qualidade e custos'}
+                ]
+              },
+              'treinamento-enablement':{
+                title:'Treinamento & Enablement',
+                subtitle:'Times capacitados para operar IA com confiança e segurança.',
+                tags:['Workshops','Governança','Hands-on','Playbooks'],
+                value:['Trilhas sob medida','Laboratórios práticos','Governança aplicada','Avaliação de maturidade'],
+                kpis:['Time-to-first-model','Adoção','Proficiência','Cobertura de políticas'],
+                how:['Diagnóstico de maturidade','Trilhas e workshops','Laboratórios no contexto','Avaliação e próximos passos'],
+                how_details:[
+                  {title:'Diagnóstico',bullets:['Entrevistas e assessment','Matriz de skills e gaps'],tools:['Questionários','Rubricas']},
+                  {title:'Trilhas',bullets:['Conteúdo customizado','Hands‑on guiado'],tools:['Jupyter','Notebooks','Katas']},
+                  {title:'Governança',bullets:['Políticas e processos','Templates e artefatos'],tools:['Notion','Confluence']},
+                  {title:'Avaliação',bullets:['Métricas de adoção','Planos de evolução'],tools:['Surveys','OKRs']}
+                ],
+                deliverables:['Trilhas e materiais','Ambiente hands-on','Playbooks e guias','Relatório de evolução'],
+                outcomes:['Autonomia do time','Adoção segura','ROI acelerado'],
+                usecases:['Up-skilling de times','Frameworks de governança','Academia de IA','Playbooks operacionais'],
+                stack:['Notion/Confluence','Jupyter','GitHub Actions','Supabase','Best practices'],
+                frameworks:[
+                  {cat:'Content',items:['Notion','Confluence']},
+                  {cat:'Hands‑on',items:['Jupyter','GitHub Codespaces']},
+                  {cat:'Automation',items:['GitHub Actions']}
+                ],
+                security:['AI usage guidelines','Data policies','Model approvals'],
+                observability:['Adoption metrics','Practice hours','Proficiency assessments'],
+                templates:['Playbook de governança','Roteiros de workshop','Matriz de maturidade'],
+                diagrams:[
+                  {title:'Enablement Journey',code:`graph LR\n  Assess[Assessment]-->Tracks[Tracks]\n  Tracks-->Labs[Hands-on Labs]\n  Labs-->Enablement[Enablement]\n  Enablement-->Governance[Governance]`}
+                ],
+                pricing:[
+                  {name:'Sprint',from:'Sob consulta',features:['Initial workshops','Tracks plan','Base materials']},
+                  {name:'Program',from:'Sob consulta',features:['Full tracks','Context labs','Mentoring']},
+                  {name:'Retainer',from:'Sob consulta',features:['Ongoing academy','Governance','Support']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Quick start',duration:'1–2 weeks',notes:'Plan and workshops'},
+                  {name:'Program',bestFor:'Team enablement',duration:'4–8 weeks',notes:'Tracks and labs'},
+                  {name:'Retainer',bestFor:'Continuous evolution',duration:'Monthly',notes:'Academy and governance'}
+                ]
+              }
+            }
+          },
+          'en':{
+            back:'Back',
+            cta:'Talk to expert',
+            lang:'Language',
+            sections:{
+              value:'Why this is premium',
+              kpis:'KPIs we optimize',
+              how:'How we work',
+              stages:'Detailed stages',
+              arch:'Architecture',
+              deliverables:'Deliverables',
+              outcomes:'Expected outcomes',
+              usecases:'Typical use cases',
+              stack:'Stack & Integrations',
+              frameworks:'Frameworks & Tools',
+              security:'Security & Compliance',
+              observability:'Observability & SLAs',
+              templates:'Playbooks & Templates',
+              pricing:'Plans & Pricing',
+              engagement:'Engagement Models',
+              faq:'FAQ'
+            },
+            final:{title:'Ready to get started?',subtitle:'Book a free assessment. Premium delivery for premium clients.'},
+            services:{
+              'agentes-chatbots':{
+                title:'Agents & Chatbots',
+                subtitle:'Conversations that convert and resolve, with enterprise-grade governance and performance.',
+                tags:['LLM Alignment','Enterprise RAG','Omnichannel','Observability'],
+                value:[
+                  'High‑performance RAG architecture (semantic cache, re‑ranking and fallback).',
+                  'Guardrails and moderation with custom policies (brand safety and compliance).',
+                  'Omnichannel integration (WhatsApp, Web, Voice) with smart routing and human handoff.',
+                  'Latency and quality SLOs with automated evaluation and human feedback.'
+                ],
+                kpis:['AHT','CSAT','FCR','Conversion'],
+                how:[
+                  'Journey and intents discovery; KPI definition.',
+                  'Prompt, tools and memory design; offline/online evaluation.',
+                  'CRM/ERP integrations and automations; observability (traces, cost, quality).',
+                  'Production hardening: scale, cost limits and regression tests.'
+                ],
+                how_details:[
+                  {title:'Discovery & Metrics',bullets:['Intent and channel mapping','KPI definition (CSAT, AHT, FCR, conversion)','Risk and governance analysis'],tools:['Productboard','Analytics','Hotjar']},
+                  {title:'Agent Design',bullets:['Toolformer/RAG architecture','Short/long memory and persona','Prompt A/B tests'],tools:['LangChain','OpenAI evals','Promptfoo']},
+                  {title:'Integration & Data',bullets:['CRM/ERP sync','Secure knowledge base indexing','Webhooks and event queues'],tools:['Supabase','pgvector','Kafka/SQS']},
+                  {title:'Operations & SRE',bullets:['Cost/quality observability','Continuous tuning and guardrails','Rollback plans and limits'],tools:['OpenTelemetry','W&B Traces','Grafana']}
+                ],
+                deliverables:['Conversation playbook','Configured workspace (RAG + flows + integrations)','Quality/cost dashboards','Operations & governance runbook'],
+                outcomes:['Lower AHT','Higher CSAT and resolution','Assisted conversion'],
+                usecases:['Customer support','Sales qualification','Backoffice/FAQ','Knowledge assistant'],
+                stack:['OpenAI/Anthropic','LangChain','Vector DB (pgvector)','Supabase','WhatsApp/Voice','Observability'],
+                frameworks:[
+                  {cat:'LLMs',items:['OpenAI','Anthropic','Ollama']},
+                  {cat:'Orchestration',items:['LangChain','LlamaIndex']},
+                  {cat:'Vector DB',items:['pgvector','FAISS']},
+                  {cat:'Datastores',items:['Supabase Postgres','S3/GCS']},
+                  {cat:'MLOps',items:['Weights & Biases','MLflow']},
+                  {cat:'Backend',items:['FastAPI','Node.js']},
+                  {cat:'Frontend',items:['Next.js','Tailwind CSS']},
+                  {cat:'Infra',items:['Vercel','AWS','Docker']}
+                ],
+                security:['Anonymization and masking','Role‑based access control','Audit logging and retention','Privacy and moderation policies'],
+                observability:['Conversation and cost tracing','Automated evaluation','Latency/quality alerts','Channel‑specific SLOs'],
+                templates:['Prompt/persona guide','Tools catalog','Go‑live checklist','Incident runbook'],
+                diagrams:[
+                  {title:'RAG/Agent Flow',code:`graph LR\n  U[User] -->|Query| AG[Agent]\n  AG --> TOOLS{Tools}\n  TOOLS --> RAG[RAG]\n  RAG --> VDB[Vector DB]\n  VDB --> KB[Knowledge Base]\n  AG --> CRM[CRM]\n  AG --> APIs[External APIs]\n  AG --> RESP[(Response)]\n  RESP --> U`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'On request',features:['5–10 days','Value mapping','Functional prototype']},
+                  {name:'Project',from:'On request',features:['Fixed scope','End‑to‑end delivery','Deployment SLA']},
+                  {name:'Retainer',from:'On request',features:['Continuous evolution','SRE/observability','Monthly roadmap']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Fast validation',duration:'1–2 weeks',notes:'Prototype and roadmap'},
+                  {name:'Project',bestFor:'Solution delivery',duration:'4–12 weeks',notes:'Scope and milestones'},
+                  {name:'Retainer',bestFor:'Operate & evolve',duration:'Monthly',notes:'Backlog and SLAs'}
+                ]
+              },
+              'automacao-rpa-ia':{
+                title:'Process Automation (RPA + AI)',
+                subtitle:'Resilient orchestrations to eliminate repetitive tasks with safety.',
+                tags:['RPA','Orchestration','APIs','Queueing'],
+                value:['End‑to‑end mapping with time and error metrics per step','Robust bots with retries, idempotency and DLQs','Queue observability and throughput SLAs','Access controls and audit trails'],
+                kpis:['Throughput','Error rate','Cycle time','SLA'],
+                how:['Process discovery and ROI prioritization','10‑day proof‑of‑value with 1–2 critical automations','Controlled scale‑up and production hardening','Team training and assisted operation'],
+                how_details:[
+                  {title:'Discovery & ROI',bullets:['SIPOC mapping and metrics','Payback and prioritization'],tools:['Miro','dbt metrics']},
+                  {title:'Flow Design',bullets:['Deterministic orchestration','Idempotency and retries'],tools:['Temporal','Airflow']},
+                  {title:'Integrations',bullets:['REST/GraphQL APIs','ETL/ELT and validations'],tools:['FastAPI','Supabase','Great Expectations']},
+                  {title:'Operations',bullets:['DLQs and reprocessing','Queue‑level SLO/SLI'],tools:['Kafka/SQS','Grafana','OpenTelemetry']}
+                ],
+                deliverables:['Process map','Bots and orchestrators','Dashboards and alerts','Runbook & SLAs'],
+                outcomes:['Lower OpEx','Fewer errors and rework','Shorter cycle time'],
+                usecases:['Invoice processing','Reconciliations','Data sync','Report generation'],
+                stack:['Airflow/Temporal','REST/GraphQL APIs','Supabase/Postgres','Queues (Kafka/SQS)','Docker','Observability'],
+                frameworks:[
+                  {cat:'Orchestration',items:['Temporal','Apache Airflow']},
+                  {cat:'Queues',items:['Kafka','SQS']},
+                  {cat:'APIs',items:['FastAPI','Node.js']},
+                  {cat:'Data',items:['Supabase Postgres','dbt']},
+                  {cat:'Quality',items:['Great Expectations']},
+                  {cat:'Infra',items:['Docker','AWS','GCP']}
+                ],
+                security:['Task audit logging','Secret management (Vault/KMS)','RBAC in orchestrators'],
+                observability:['Queue/throughput metrics','Distributed tracing','Error and cycle‑time alerts'],
+                templates:['Automation blueprint','Integration checklist','SLA template','DLQ runbook'],
+                diagrams:[
+                  {title:'RPA Orchestration',code:`graph TD\n  TRG[Trigger]-->Q[Queue]\n  Q-->W1[Worker A]\n  Q-->W2[Worker B]\n  W1-->ERP[ERP]\n  W2-->CRM[CRM]\n  W1-->DLQ[DLQ]\n  Monitor-->Q`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'On request',features:['10 days','1–2 automations','ROI metrics']},
+                  {name:'Project',from:'On request',features:['Multiple flows','Observability','Ops SLA']},
+                  {name:'Retainer',from:'On request',features:['Ongoing backlog','Improvements','Dedicated support']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Proof of value',duration:'~2 weeks',notes:'Critical automation'},
+                  {name:'Project',bestFor:'Controlled scale',duration:'4–8 weeks',notes:'Multiple flows'},
+                  {name:'Retainer',bestFor:'24/7 Ops',duration:'Monthly',notes:'SRE and improvements'}
+                ]
+              },
+              'visao-computacional':{
+                title:'Computer Vision',
+                subtitle:'High‑accuracy inspection and reliable OCR in industrial environments.',
+                tags:['OCR','Detection','Classification','Edge/Cloud'],
+                value:['Augmentation and active learning pipelines for continuous quality','Performance validated with benchmarks and robustness tests','Edge or cloud deploy with MLOps for retraining','Integration with MES/ERP and line equipment'],
+                kpis:['Accuracy','Precision/Recall','Latency','False negatives'],
+                how:['Data collection and labeling','Training and validation','Line integration','Monitoring and retraining'],
+                how_details:[
+                  {title:'Dataset & Labeling',bullets:['Controlled and balanced collection','Label guidelines and audits'],tools:['Label Studio','Roboflow']},
+                  {title:'Training & Validation',bullets:['Augmentation and mixup','Industrial holdout benchmarks'],tools:['PyTorch','Albumentations']},
+                  {title:'Serving & Edge',bullets:['ONNX/TensorRT conversion','Optimizations and quantization'],tools:['ONNX','TensorRT','OpenVINO']},
+                  {title:'MLOps',bullets:['Drift monitoring and retraining','Data/model versioning'],tools:['MLflow','W&B','DVC']}
+                ],
+                deliverables:['Curated datasets','Models and containers','Accuracy dashboards','Operating procedures'],
+                outcomes:['High accuracy','Waste reduction','Traceability'],
+                usecases:['Quality inspection','Document OCR','Object detection','Automatic counting'],
+                stack:['PyTorch','OpenCV','ONNX/TensorRT','Edge devices','FastAPI','Supabase'],
+                frameworks:[
+                  {cat:'Modeling',items:['PyTorch','TorchVision']},
+                  {cat:'Vision',items:['OpenCV','Albumentations']},
+                  {cat:'Serving',items:['FastAPI','ONNX Runtime','TensorRT']},
+                  {cat:'MLOps',items:['MLflow','W&B','DVC']}
+                ],
+                security:['Image anonymization','Dataset access control','Inference logging'],
+                observability:['Per‑class accuracy metrics','Device latency metrics','Visual drift monitoring'],
+                templates:['Labeling pipeline','Validation checklist','Retraining playbook'],
+                diagrams:[
+                  {title:'CV Pipeline',code:`graph LR\n  CAM[Camera]-->EDGE[Edge Inference]\n  EDGE-->MES[MES/ERP]\n  EDGE-->MON[Monitoring]\n  DS[Dataset]-->Train[Training]\n  Train-->EDGE`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'On request',features:['Sample acquisition','Model POC','Feasibility report']},
+                  {name:'Project',from:'On request',features:['Curated dataset','Training/serving','Line integration']},
+                  {name:'Retainer',from:'On request',features:['Continuous retraining','Improvements','Drift monitoring']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Technical validation',duration:'2–3 weeks',notes:'POC with samples'},
+                  {name:'Project',bestFor:'Production',duration:'6–12 weeks',notes:'Line integrated'},
+                  {name:'Retainer',bestFor:'Evolution',duration:'Monthly',notes:'Retraining and SRE'}
+                ]
+              },
+              'predicao-forecast':{
+                title:'Prediction & Forecast',
+                subtitle:'Models anticipating demand, pricing and churn with data governance.',
+                tags:['Time‑series','ML','Causal','MLOps'],
+                value:['Feature store and experiment tracking for reproducible DS','Hierarchical modeling and multiple seasonality','Scenario planning and causal analysis','Drift monitoring and auto‑retraining'],
+                kpis:['MAPE','RMSE','Uplift','Churn reduction'],
+                how:['Variable discovery','Experimentation','Validation and stress tests','Operationalization and monitoring'],
+                how_details:[
+                  {title:'Variable Discovery',bullets:['Feature sourcing and lint','Importance and SHAP analysis'],tools:['dbt','pandas','SHAP']},
+                  {title:'Modeling',bullets:['Hierarchical & multiple seasonality','Exogenous and calendar effects'],tools:['Prophet','ARIMA','XGBoost']},
+                  {title:'Validation',bullets:['Rolling window backtesting','Stress tests and breaks'],tools:['scikit‑learn','NumPy']},
+                  {title:'Ops',bullets:['Pipelines and schedules','Drift monitoring & retraining'],tools:['Airflow','MLflow']}
+                ],
+                deliverables:['Variable report','Models and pipelines','Forecast dashboards','Decision playbook'],
+                outcomes:['Better forecast accuracy','Optimized inventory and pricing','Reduced churn'],
+                usecases:['Demand','Pricing','Churn','Predictive maintenance'],
+                stack:['Prophet/ARIMA','XGBoost','scikit-learn','mlflow','dbt','Supabase'],
+                frameworks:[
+                  {cat:'Time‑series',items:['Prophet','ARIMA']},
+                  {cat:'ML',items:['XGBoost','scikit‑learn']},
+                  {cat:'Pipelines',items:['dbt','Airflow']},
+                  {cat:'MLOps',items:['MLflow']}
+                ],
+                security:['Data governance and lineage','Sensitive data access control'],
+                observability:['MAPE/RMSE per series','Drift/break alerts','Prediction cost'],
+                templates:['Backtesting template','Forecast dashboard','Retraining runbook'],
+                diagrams:[
+                  {title:'Forecast Pipeline',code:`graph LR\n  SRC[Sources]-->ETL[ETL/ELT]\n  ETL-->WH[Warehouse]\n  WH-->FE[Features]\n  FE-->MODEL[Forecast Model]\n  MODEL-->DASH[Dashboards]`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'On request',features:['Variable exploration','Quick backtesting','Roadmap']},
+                  {name:'Project',from:'On request',features:['Hierarchical models','Pipelines & dashboards','Governance']},
+                  {name:'Retainer',from:'On request',features:['Continuous retraining','Improvements','Executive support']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Value assessment',duration:'2–3 weeks',notes:'Backtesting and plan'},
+                  {name:'Project',bestFor:'Operationalize',duration:'4–8 weeks',notes:'Ready pipelines'},
+                  {name:'Retainer',bestFor:'Improve accuracy',duration:'Monthly',notes:'Monitoring and retraining'}
+                ]
+              },
+              'integracoes-dados':{
+                title:'Integrations & Data',
+                subtitle:'Right data, in the right place, with quality and security.',
+                tags:['ETL/ELT','Warehouses','Streaming','Governance'],
+                value:['Modern data architecture','Quality and catalogs','Streaming & CDC','Governance and security'],
+                kpis:['Freshness','Completeness','Latency','Cost'],
+                how:['Discovery and mapping','Pipelines and modeling','Catalog and quality','Observability and costs'],
+                how_details:[
+                  {title:'Architecture',bullets:['Domain and flow diagrams','Ingest/transform patterns'],tools:['dbt','Lakehouse']},
+                  {title:'Ingestion',bullets:['ELT with connectors','CDC and streaming'],tools:['Airbyte/Fivetran','Kafka']},
+                  {title:'Modeling',bullets:['Bronze/Silver/Gold layers','Domain data marts'],tools:['dbt','Postgres']},
+                  {title:'Quality & Cost',bullets:['Data tests and SLAs','Budget and cost control'],tools:['Great Expectations','Cost Explorer']}
+                ],
+                deliverables:['Diagrams and IaC','Pipelines and models','Data catalog','SLAs and dashboards'],
+                outcomes:['Trusted data','Faster access','Cost control'],
+                usecases:['Source unification','CDC/streaming','APIs and webhooks','Analytical data marts'],
+                stack:['dbt','Airbyte/Fivetran','Kafka','Supabase/Postgres','DuckDB','Great Expectations'],
+                frameworks:[
+                  {cat:'Ingestion',items:['Airbyte','Fivetran']},
+                  {cat:'Streaming',items:['Kafka']},
+                  {cat:'Transformation',items:['dbt']},
+                  {cat:'Storage',items:['Supabase Postgres','DuckDB']},
+                  {cat:'Quality',items:['Great Expectations']}
+                ],
+                security:['Access governance (RBAC/ABAC)','At‑rest/in‑transit encryption','Column masking'],
+                observability:['Freshness/volume/anomaly','Rows impacted per run','Failure alerts'],
+                templates:['Catalog template','ELT pipeline blueprint','Quality checklist'],
+                diagrams:[
+                  {title:'Data Architecture',code:`graph LR\n  Conn[Connectors]-->ELT[ELT]\n  ELT-->DW[Data Warehouse]\n  DW-->DBT[dbt Models]\n  DBT-->MARTS[Data Marts]`}
+                ],
+                pricing:[
+                  {name:'Discovery Sprint',from:'On request',features:['Architecture blueprint','Prioritized backlog','Execution plan']},
+                  {name:'Project',from:'On request',features:['Pipelines and models','Catalog and quality','Data SLAs']},
+                  {name:'Retainer',from:'On request',features:['Evolution and monitoring','New integrations','Cost optimization']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Architecture design',duration:'1–2 weeks',notes:'Plan and POC'},
+                  {name:'Project',bestFor:'Implementation',duration:'4–10 weeks',notes:'ELT+dbt ready'},
+                  {name:'Retainer',bestFor:'Operations',duration:'Mensal',notes:'Quality and costs'}
+                ]
+              },
+              'treinamento-enablement':{
+                title:'Training & Enablement',
+                subtitle:'Teams capable of operating AI with confidence and safety.',
+                tags:['Workshops','Governance','Hands‑on','Playbooks'],
+                value:['Tailored learning paths','Hands‑on labs','Applied governance','Maturity assessment'],
+                kpis:['Time‑to‑first‑model','Adoption','Proficiency','Policy coverage'],
+                how:['Maturity assessment','Tracks and workshops','Contextual labs','Assessment and next steps'],
+                how_details:[
+                  {title:'Assessment',bullets:['Interviews and assessment','Skills/gaps matrix'],tools:['Surveys','Rubrics']},
+                  {title:'Tracks',bullets:['Custom content','Guided hands‑on'],tools:['Jupyter','Notebooks','Katas']},
+                  {title:'Governance',bullets:['Policies and processes','Templates and artifacts'],tools:['Notion','Confluence']},
+                  {title:'Evaluation',bullets:['Adoption metrics','Evolution plans'],tools:['Surveys','OKRs']}
+                ],
+                deliverables:['Tracks and materials','Hands‑on environment','Playbooks and guides','Progress report'],
+                outcomes:['Team autonomy','Safe adoption','Accelerated ROI'],
+                usecases:['Team upskilling','Governance frameworks','AI academy','Operational playbooks'],
+                stack:['Notion/Confluence','Jupyter','GitHub Actions','Supabase','Best practices'],
+                frameworks:[
+                  {cat:'Content',items:['Notion','Confluence']},
+                  {cat:'Hands‑on',items:['Jupyter','GitHub Codespaces']},
+                  {cat:'Automation',items:['GitHub Actions']}
+                ],
+                security:['AI usage guidelines','Data policies','Model approvals'],
+                observability:['Adoption metrics','Practice hours','Proficiency assessments'],
+                templates:['Governance playbook','Workshop scripts','Maturity matrix'],
+                diagrams:[
+                  {title:'Enablement Journey',code:`graph LR\n  Assess[Assessment]-->Tracks[Tracks]\n  Tracks-->Labs[Hands-on Labs]\n  Labs-->Enablement[Enablement]\n  Enablement-->Governance[Governance]`}
+                ],
+                pricing:[
+                  {name:'Sprint',from:'On request',features:['Initial workshops','Tracks plan','Base materials']},
+                  {name:'Program',from:'On request',features:['Full tracks','Context labs','Mentoring']},
+                  {name:'Retainer',from:'On request',features:['Ongoing academy','Governance','Support']}
+                ],
+                engagement:[
+                  {name:'Sprint',bestFor:'Quick start',duration:'1–2 weeks',notes:'Plan and workshops'},
+                  {name:'Program',bestFor:'Team enablement',duration:'4–8 weeks',notes:'Tracks and labs'},
+                  {name:'Retainer',bestFor:'Continuous evolution',duration:'Monthly',notes:'Academy and governance'}
+                ]
+              }
+            }
+          }
+        },
+
+        t(){return this.content[this.lang]},
+        s(){return (this.t().services||{})[this.slug]||null},
+        ft(){return this.formText[this.lang]},
+        toggleLang(){ this.lang = this.lang==='pt-BR' ? 'en' : 'pt-BR'; document.documentElement.lang=this.lang; localStorage.setItem('preferred-lang',this.lang); },
+
+        init(){
+          const saved = localStorage.getItem('preferred-lang');
+          this.lang = saved || 'en';
+          document.documentElement.lang=this.lang;
+          const url=new URL(window.location.href);
+          const paramSlug=url.searchParams.get('s');
+          this.slug = (window.__SERVICE_SLUG||paramSlug||'').trim();
+          const svc=this.s();
+          if(svc){ this.metaTitle = `Softhaus – ${svc.title}`; this.metaDesc = svc.subtitle; }
+          const SUPABASE_URL='https://vfolhmfhdsinqqgdssve.supabase.co';
+          const SUPABASE_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZmb2xobWZoZHNpbnFxZ2Rzc3ZlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4OTMzOTMsImV4cCI6MjA2MjQ2OTM5M30.LXOTfL9SmnQR7N9Dl3BfI4L5Z3OhoQckvuraD2CdXgg';
+          this.sb = supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+        },
+        async submit(){
+          const payload={...this.form,servico:this.slug,idioma:this.lang};
+          const { error } = await this.sb.from('leads_ia').insert(payload);
+          if(error){alert(this.ft().alerts.fail+error.message);console.error(error);} else {alert(this.ft().alerts.ok);this.modal=false;}
+        }
+      }
+    }
+  </script>
+</head>
+<body x-cloak>
+  <header class="fixed inset-x-0 top-0 z-50 backdrop-blur" :class="{'bg-[#070814]/90':true}">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="file:///home/gabriel-h/softhaus-ia-site/softhaus-ia-site/index.html" class="flex items-center space-x-2">
+        <img src="../assets/img/logo-softhaus.svg" class="w-8" alt="Softhaus">
+        <span class="font-heading font-bold">Softhaus AI</span>
+      </a>
+      <nav class="hidden md:flex items-center space-x-6 text-sm uppercase tracking-wide">
+                 <a href="file:///home/gabriel-h/softhaus-ia-site/softhaus-ia-site/index.html#servicos" class="hover:text-primary" x-text="t().back"></a>
+        <div class="flex items-center space-x-3">
+          <span class="text-xs" :class="lang==='pt-BR'?'text-accent':'text-gray-400'">PT</span>
+          <div class="lang-toggle" :class="lang==='en'?'active':''" @click="toggleLang()"></div>
+          <span class="text-xs" :class="lang==='en'?'text-accent':'text-gray-400'">EN</span>
+        </div>
+        <button class="btn btn-primary py-2 px-6" @click="modal=true" x-text="t().cta"></button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="relative pt-36 pb-16 overflow-hidden">
+    <div class="absolute inset-0 hero-bg"></div>
+    <div class="relative z-10 max-w-5xl mx-auto px-6">
+      <div class="mb-4 flex flex-wrap gap-2">
+        <template x-for="tag in (s()?.tags||[])" :key="tag">
+          <span class="badge" x-text="tag"></span>
+        </template>
+      </div>
+      <h1 class="text-4xl md:text-6xl font-heading font-light" x-text="s()?.title||'Serviço'"></h1>
+      <p class="text-gray-300 text-lg md:text-xl mt-4 max-w-3xl" x-text="s()?.subtitle"></p>
+      <div class="mt-8 flex gap-4">
+        <a href="#como" class="btn btn-sec py-3 px-6" x-text="t().sections.how"></a>
+        <a href="#valor" class="btn btn-primary py-3 px-6" x-text="t().cta"></a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- VALOR -->
+  <section id="valor" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.value"></h2>
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <template x-for="(v,i) in (s()?.value||[])" :key="i">
+          <div class="glass p-6 rounded-2xl" x-text="v"></div>
+        </template>
+      </div>
+      <div>
+        <h3 class="text-2xl font-heading font-semibold mb-4" x-text="t().sections.kpis"></h3>
+        <div class="flex flex-wrap gap-2">
+          <template x-for="k in (s()?.kpis||[])" :key="k">
+            <span class="badge" x-text="k"></span>
+          </template>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO TRABALHAMOS -->
+  <section id="como" class="py-20 bg-gradient-to-b from-white/5 via-transparent to-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.how"></h2>
+      <ol class="grid md:grid-cols-4 gap-6 list-decimal list-inside">
+        <template x-for="(h,i) in (s()?.how||[])" :key="i">
+          <li class="glass p-6 rounded-2xl" x-text="h"></li>
+        </template>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ETAPAS DETALHADAS -->
+  <section id="stages" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.stages"></h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <template x-for="(d,i) in (s()?.how_details||[])" :key="i">
+          <div class="glass p-6 rounded-2xl">
+            <h3 class="font-heading font-semibold text-lg mb-2" x-text="d.title"></h3>
+            <ul class="text-sm text-gray-300 space-y-2 list-disc list-inside mb-4">
+              <template x-for="(b,j) in (d.bullets||[])" :key="j"><li x-text="b"></li></template>
+            </ul>
+            <div class="flex flex-wrap gap-2">
+              <template x-for="tool in (d.tools||[])" :key="tool"><span class="badge-outline" x-text="tool"></span></template>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENTREGÁVEIS / RESULTADOS -->
+  <section class="py-20">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-2xl font-heading font-bold mb-4" x-text="t().sections.deliverables"></h3>
+        <ul class="space-y-2 list-disc list-inside">
+          <template x-for="(d,i) in (s()?.deliverables||[])" :key="i">
+            <li x-text="d"></li>
+          </template>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-2xl font-heading font-bold mb-4" x-text="t().sections.outcomes"></h3>
+        <ul class="space-y-2 list-disc list-inside">
+          <template x-for="(o,i) in (s()?.outcomes||[])" :key="i">
+            <li x-text="o"></li>
+          </template>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASOS DE USO -->
+  <section id="usecases" class="py-20 bg-gradient-to-b from-white/5 via-transparent to-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.usecases"></h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <template x-for="(u,i) in (s()?.usecases||[])" :key="i">
+          <div class="glass p-6 rounded-2xl" x-text="u"></div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMEWORKS & FERRAMENTAS -->
+  <section id="frameworks" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.frameworks"></h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <template x-for="(grp,i) in (s()?.frameworks||[])" :key="i">
+          <div class="glass p-6 rounded-2xl">
+            <div class="text-xs uppercase tracking-wide text-gray-400 mb-3" x-text="grp.cat"></div>
+            <div class="flex flex-wrap gap-2">
+              <template x-for="fw in grp.items" :key="fw"><span class="badge" x-text="fw"></span></template>
+            </div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEGURANÇA / OBSERVABILIDADE -->
+  <section id="security" class="py-20 bg-gradient-to-b from-white/5 via-transparent to-white/5">
+    <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-6">
+      <div>
+        <h3 class="text-2xl font-heading font-bold mb-4" x-text="t().sections.security"></h3>
+        <ul class="space-y-2 list-disc list-inside">
+          <template x-for="(s1,i) in (s()?.security||[])" :key="i"><li x-text="s1"></li></template>
+        </ul>
+      </div>
+      <div id="observability">
+        <h3 class="text-2xl font-heading font-bold mb-4" x-text="t().sections.observability"></h3>
+        <ul class="space-y-2 list-disc list-inside">
+          <template x-for="(o1,i) in (s()?.observability||[])" :key="i"><li x-text="o1"></li></template>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAYBOOKS & TEMPLATES -->
+  <section id="templates" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.templates"></h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <template x-for="(tpl,i) in (s()?.templates||[])" :key="i">
+          <div class="glass p-6 rounded-2xl" x-text="tpl"></div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARQUITETURA / DIAGRAMAS -->
+  <section id="arch" class="py-20 bg-gradient-to-b from-white/5 via-transparent to-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.arch"></h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <template x-for="(d,i) in (s()?.diagrams||[])" :key="i">
+          <div class="glass p-6 rounded-2xl">
+            <h3 class="font-heading font-semibold text-lg mb-4" x-text="d.title"></h3>
+            <pre class="mermaid" x-text="d.code"></pre>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="py-20">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.pricing"></h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <template x-for="(p,i) in (s()?.pricing||[])" :key="i">
+          <div class="glass p-6 rounded-2xl">
+            <div class="text-xs uppercase tracking-wide text-gray-400 mb-2" x-text="p.name"></div>
+            <div class="text-3xl font-light mb-4" x-text="p.from"></div>
+            <ul class="space-y-2 list-disc list-inside text-sm text-gray-300">
+              <template x-for="(f,j) in (p.features||[])" :key="j"><li x-text="f"></li></template>
+            </ul>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGEMENT MODELS -->
+  <section id="engagement" class="py-20 bg-gradient-to-b from-white/5 via-transparent to-white/5">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-6" x-text="t().sections.engagement"></h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <template x-for="(e,i) in (s()?.engagement||[])" :key="i">
+          <div class="glass p-6 rounded-2xl">
+            <div class="text-xs uppercase tracking-wide text-gray-400" x-text="e.name"></div>
+            <div class="mt-2 text-sm"><span class="text-gray-400">Best for:</span> <span x-text="e.bestFor"></span></div>
+            <div class="text-sm"><span class="text-gray-400">Duração:</span> <span x-text="e.duration"></span></div>
+            <div class="text-sm"><span class="text-gray-400">Notas:</span> <span x-text="e.notes"></span></div>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-24">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="glass rounded-2xl p-10 text-center" data-aos="zoom-in">
+        <h2 class="text-3xl md:text-5xl font-heading font-bold mb-4" x-text="t().final.title"></h2>
+        <p class="text-lg md:text-xl opacity-90 mb-8" x-text="t().final.subtitle"></p>
+        <a href="#" class="btn btn-primary py-4 px-10" @click.prevent="modal=true" x-text="t().cta"></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL FORM -->
+  <template x-if="modal">
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-6">
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" @click="modal=false"></div>
+      <div class="glass max-w-xl w-full p-8 rounded-2xl relative" x-transition>
+        <button class="absolute top-3 right-3 text-gray-400 hover:text-primary" @click="modal=false">✕</button>
+        <h3 class="text-2xl font-heading font-bold mb-6" x-text="ft().title"></h3>
+        <form class="space-y-4" @submit.prevent="submit()">
+          <div class="grid md:grid-cols-2 gap-4">
+            <input x-model="form.nome"  placeholder="Nome / Name"  class="w-full bg-white/5 p-3 rounded-md" required>
+            <input x-model="form.email" placeholder="E-mail" class="w-full bg-white/5 p-3 rounded-md" type="email" required>
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <input x-model="form.telefone" placeholder="Telefone / Phone" class="w-full bg-white/5 p-3 rounded-md" required>
+            <input x-model="form.empresa"  placeholder="Empresa / Company"  class="w-full bg-white/5 p-3 rounded-md">
+          </div>
+          <div class="grid md:grid-cols-2 gap-4">
+            <select x-model="form.orcamento" class="w-full bg-white/5 p-3 rounded-md" required>
+              <option value="" disabled selected x-text="lang==='pt-BR'?'Orçamento estimado':'Estimated budget'"></option>
+              <template x-for="o in ft().budget"><option x-text="o"></option></template>
+            </select>
+            <select x-model="form.prazo" class="w-full bg-white/5 p-3 rounded-md" required>
+              <option value="" disabled selected x-text="lang==='pt-BR'?'Prazo desejado':'Desired timeline'"></option>
+              <template x-for="t in ft().timeline"><option x-text="t"></option></template>
+            </select>
+          </div>
+          <textarea x-model="form.descricao" rows="3" placeholder="Projeto / Project" class="w-full bg-white/5 p-3 rounded-md"></textarea>
+          <button class="btn btn-primary w-full py-3" x-text="ft().send"></button>
+        </form>
+      </div>
+    </div>
+  </template>
+
+  <footer class="bg-[#0F111A] text-white py-10">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row md:justify-between md:items-center gap-6">
+      <div class="flex items-center space-x-3">
+        <img src="../assets/img/logo-softhaus.svg" class="w-9" alt="Softhaus">
+        <span class="font-heading font-bold text-lg">Softhaus AI</span>
+      </div>
+      <div class="text-sm text-gray-400">© 2025 Softhaus. Todos os direitos reservados.</div>
+    </div>
+  </footer>
+</body>
+</html> 
